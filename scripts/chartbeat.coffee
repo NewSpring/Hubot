@@ -33,6 +33,6 @@ module.exports = (robot) ->
           return
         else
           response = JSON.parse(body)
-          people = response.people || []
-          msg.send response.inspect()
+          people = response.results[0].people || []
+          msg.send "I see #{people} people on the site right now!"
 
