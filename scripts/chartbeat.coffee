@@ -26,7 +26,7 @@ module.exports = (robot) ->
     apiKey    = process.env.HUBOT_CHARTBEAT_API_KEY
     Parser = require("xml2js").Parser
     
-    msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}/applications/#{appId}/threshold_values.xml?api_key=#{apiKey}&path=#{path}")
+    msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&path=#{path}")
       .get() (err, res, body) ->
         if err
           msg.send "Chartbeat says: #{err}"
