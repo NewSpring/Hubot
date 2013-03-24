@@ -31,9 +31,9 @@ module.exports = (robot) ->
         if err
           msg.send "Chartbeat says: #{err}"
           return
-
-        (new Parser).parseString body, (err, json)->
-          people = json['people'] || []
+          
+          response = JSON.parse(body)
+          people = response.people || []
                        
           msg.send "I see #{people} people on the site right now!"
 
