@@ -34,5 +34,5 @@ module.exports = (robot) ->
         else
           response = JSON.parse(body)
           people = response.people || []
-          msg.send response
+          msg.send response.inspect()
 
