@@ -28,11 +28,10 @@ module.exports = (robot) ->
     Parser = require("xml2js").Parser
     msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")
       .get() (err, res, body) ->
-        unless res.statusCode is 200
-          msg.send "There seems to be a problem looking at chartbeat."
-          return
-
-          response = JSON.parse(body)
-          people = response.people || []
-          msg.send "I see #{people} people on the site right now!"
+        #unless res.statusCode is 200
+        # msg.send "There seems to be a problem looking at chartbeat."
+        # return
+        response = JSON.parse(body)
+        people = response.people || []
+        msg.send "I see #{people} people on the site right now!"
 
