@@ -23,7 +23,9 @@
     "underscore.string": "2.1.1",
     "githubot": "0.2.0",
     "xml2js": "0.2.0",
-    "scribe-node": ">=0.0.24"
+    "scribe-node": ">=0.0.24",
+    "htmlparser": "1.7.6",
+    "soupselect": "0.2.0"
   },
 
   "engines": {
