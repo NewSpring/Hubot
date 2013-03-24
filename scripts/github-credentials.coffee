@@ -35,6 +35,7 @@ module.exports = (robot) ->
 
   robot.respond /who am i\s*$/i, (msg) ->
     user = msg.message.user
+    console.log(user)
     if user.githubLogin
       msg.reply "You are known as " + user.githubLogin + " on GitHub"
     else
