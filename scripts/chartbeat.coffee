@@ -23,13 +23,14 @@
 module.exports = (robot) ->
   robot.respond /chart( me)? (.*)/i, (msg) ->
     site = if (msg.match[2] == 'me') then process.env.HUBOT_CHARTBEAT_SITE else msg.match[2]
-    apiKey    = process.env.HUBOT_CHARTBEAT_API_KEY
+    apiKey = process.env.HUBOT_CHARTBEAT_API_KEY
     Parser = require("xml2js").Parser
     msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")
       .get() (err, res, body) ->
-        #unless res.statusCode is 200
-        # msg.send "There seems to be a problem looking at chartbeat."
-        # return
+        unless res.statusCode is 200
+         msg.send "Chartbeat told me #{err}"
+         return
+
         response = JSON.parse(body)
         people = response.people || []
         pluralize = if (people == 1) then "person" else "people"
