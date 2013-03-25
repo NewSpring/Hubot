@@ -22,6 +22,7 @@
 
 module.exports = (robot) ->
   robot.respond /chart( me)? (.*)/i, (msg) ->
+    console.log(msg)
     path = msg.match[1]
     site     = process.env.HUBOT_CHARTBEAT_SITE
     apiKey    = process.env.HUBOT_CHARTBEAT_API_KEY
