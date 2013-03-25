@@ -23,8 +23,7 @@
 module.exports = (robot) ->
   robot.respond /chart( me)? (.*)/i, (msg) ->
     console.log(msg.message.user)
-    host = msg.match[2]
-    site     = process.env.HUBOT_CHARTBEAT_SITE || host
+    site      = msg.match[2] || process.env.HUBOT_CHARTBEAT_SITE
     apiKey    = process.env.HUBOT_CHARTBEAT_API_KEY
     Parser = require("xml2js").Parser
     msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")
