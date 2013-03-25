@@ -22,10 +22,7 @@
 
 module.exports = (robot) ->
   robot.respond /chart( me)? (.*)/i, (msg) ->
-    site = msg.match[2]
-    if(site == '')
-      site = process.env.HUBOT_CHARTBEAT_SITE
-    
+    site = (msg.match[2] == me) ? process.env.HUBOT_CHARTBEAT_SITE || msg.match[2]
     console.log(site)
     apiKey    = process.env.HUBOT_CHARTBEAT_API_KEY
     Parser = require("xml2js").Parser
