@@ -28,7 +28,7 @@ module.exports = (robot) ->
     msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")
       .get() (err, res, body) ->
         unless res.statusCode is 200
-         msg.send "Chartbeat told me #{err}"
+         msg.send "There was a problem with Chartbeat. Do you have access to this domain?"
          return
 
         response = JSON.parse(body)
