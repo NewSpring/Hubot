@@ -32,5 +32,6 @@ module.exports = (robot) ->
         # return
         response = JSON.parse(body)
         people = response.people || []
-        msg.send "I see #{people} people on #{site} right now!"
+        pluralize = if (people == 1) then "person" else "people"
+        msg.send "I see #{people} #{pluralize} on #{site} right now!"
 
