@@ -9,7 +9,7 @@
 #   HUBOT_CHARTBEAT_API_KEY
 # 
 # Commands:
-#   hubot chart me (path) - Returns active concurrent vistors from the site 
+#   hubot chart me - Returns active concurrent vistors from the default site 
 #   specified.
 #
 # Notes:
@@ -22,9 +22,13 @@
 
 module.exports = (robot) ->
   robot.respond /chart( me)? (.*)/i, (msg) ->
+    if (!process.env.HUBOT_CHARTBEAT_SITE && msg.match[2] == 'me')
+      msg.send "You need to set a default site"
+      return
+
     site = if (msg.match[2] == 'me') then process.env.HUBOT_CHARTBEAT_SITE else msg.match[2]
     apiKey = process.env.HUBOT_CHARTBEAT_API_KEY
-    Parser = require("xml2js").Parser
+
     msg.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")
       .get() (err, res, body) ->
         unless res.statusCode is 200
