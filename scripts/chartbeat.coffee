@@ -33,6 +33,11 @@ module.exports = (robot) ->
 
         response = JSON.parse(body)
         people = response.people || []
+          
+          if (people < 1)
+            msg.send "It doesn't appear that #{site} has any visitors right now"
+            return
+
         pluralize = if (people == 1) then "person" else "people"
         msg.send "I see #{people} #{pluralize} on #{site} right now!"
 
