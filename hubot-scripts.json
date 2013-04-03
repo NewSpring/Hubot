@@ -1,1 +1,1 @@
-["redis-brain.coffee", "tweet.coffee", "shipit.coffee","github-credentials.coffe"]
+["redis-brain.coffee", "tweet.coffee", "shipit.coffee","github-credentials.coffe","storage.coffee"]

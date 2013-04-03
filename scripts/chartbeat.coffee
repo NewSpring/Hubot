@@ -1,17 +1,16 @@
 # Description:
-#   Display current app performance stats from New Relic
+#   Display number of concurrent vistors to the specified site. 
 #
 # Dependencies:
-#   "xml2js": "0.2.0"
+#   None
 #
 # Configuration:
 #   HUBOT_CHARTBEAT_SITE
-#   HUBOT_CHARTBEAT_API_KEY
+#   HUBOT_CHARTBEAT_API_KEY <use global key for access to all sites>
 # 
 # Commands:
-#   hubot chart me - Returns active concurrent vistors from the default site 
-#   specified.
-#
+#   hubot chart me - Returns active concurrent vistors from the default site specified. 
+#   hubot chart me <host> - Returns active concurrent vistors from the site specified. 
 # Notes:
 #   How to find these settings:
 #   Log into chartbeat then browse to 
