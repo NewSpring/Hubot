@@ -21,6 +21,8 @@
     "optparse":      "1.0.3",
     "underscore": "1.3.3",
     "underscore.string": "2.1.1",
+	"jsdom": 	">=0.2.0",
+	"jquery": 	">=1.7.2",
     "githubot": "0.2.0",
     "xml2js": "0.2.0",
     "scribe-node": ">=0.0.24",
