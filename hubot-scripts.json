@@ -13,9 +13,10 @@
   "github-issues.coffee",
   "github-issue-link.coffee",
   "github-status.coffee",
+  "karma.coffee",
   "octocat.coffee",
   "rotten.coffee",
+  "swanson.coffee",
   "tvshow.coffee",
-  "twss.coffee",
   "wikipedia.coffee",
   "xkcd.coffee"]
