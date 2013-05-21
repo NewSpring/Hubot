@@ -27,7 +27,7 @@ module.exports = (robot) ->
           when 200
             msg.send "Sorry, #{domain} is not available."
           when 404
-            msg.send "Cybersquat that shit!"
+            msg.send "Time to buy!"
           when 401
             msg.send "You need to authenticate by setting the DNSIMPLE_USERNAME & DNSIMPLE_PASSWORD environment variables"
           else
