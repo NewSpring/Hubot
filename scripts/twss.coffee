@@ -14,5 +14,5 @@
 #   dhchow
 
 module.exports = (robot) ->
-  robot.hear /.*(big|small|long|hard|soft|mouth|face|good|fast|slow|in there|on there|in that|on that|wet|dry|on the|in the|suck|blow|jaw|all in|fit that|fit it|hurts|hot|huge|balls|stuck)/i, (msg) ->
-    msg.send "THAT'S WHAT SHE SAID!"
+  robot.hear /.*(big|small|long|hard|soft|mouth|good|fast|slow|in there|on there|in that|on that|wet|dry|on the|in the|suck|blow|jaw|all in|fit that|fit it|hurts|hot|huge|balls|stuck)/i, (msg) ->
+    msg.send "that's what she said!"
