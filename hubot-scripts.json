@@ -3,6 +3,7 @@
   "cloudapp.coffee",
   "dribbble.coffee",
   "facepalm.coffee",
+  "faceup.coffee",
   "gangnam.coffee",
   "geocodeme.coffee",
   "git-help.coffee",
@@ -20,4 +21,5 @@
   "tvshow.coffee",
   "tweet.coffee", 
   "wikipedia.coffee",
+  "wunderground.coffee",
   "xkcd.coffee"]
