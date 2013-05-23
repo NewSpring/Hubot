@@ -24,6 +24,7 @@
 	"jsdom": 	">=0.2.0",
 	"jquery": 	">=1.7.2",
     "githubot": "0.2.0",
+	"xml2js": "0.2.0",
     "cheerio": "0.10.7",
 	"request": "2.14.0",
     "scribe-node": ">=0.0.24",
