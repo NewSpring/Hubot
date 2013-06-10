@@ -9,7 +9,7 @@ module.exports = (robot) ->
     entry_id = msg.match[2]
     user = process.env.WUFOO_API_KEY
     pass = "newspring" #not used by the wufoo API
-    auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
+    auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
     msg.http("https://newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
