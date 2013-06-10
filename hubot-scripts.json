@@ -21,4 +21,5 @@
   "tweet.coffee", 
   "wikipedia.coffee",
   "wunderground.coffee",
-  "xkcd.coffee"]
+  "xkcd.coffee",
+  "webrequest.coffee"]
