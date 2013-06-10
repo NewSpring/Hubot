@@ -10,8 +10,8 @@ module.exports = (robot) ->
     user = process.env.WUFOO_API_KEY
     pass = "newspring" #not used by the wufoo API
     auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
-    msg.http("https://newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
-      .headers(Authorization: auth, Accept: 'application/json')
+    msg.http("https://#{user}:#{pass}@newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
+      .headers(Accept: 'application/json')
       .get() (err, res, body) ->
         switch res.statusCode
           when 200
