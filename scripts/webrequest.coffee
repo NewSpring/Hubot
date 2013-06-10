@@ -2,14 +2,15 @@
 #   WebRequest is the most important thing in your life
 #
 # Commands:
-#   hubot hears WR 232, Returns Entry #232 From Wufoo 
+#   hubot hears WR ####, Returns Entry #### From Wufoo 
+
+##Include Underscore to parse response
 
 module.exports = (robot) ->
-  robot.respond /(WR|wr)( (\d+))?/i, (msg) ->
+  robot.hear /(WR|wr)( (\d+))?/i, (msg) ->
     entry_id = msg.match[2]
     user = process.env.WUFOO_API_KEY
     pass = "newspring" #not used by the wufoo API
-    auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
     msg.http("https://#{user}:#{pass}@newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
       .headers(Accept: 'application/json')
       .get() (err, res, body) ->
