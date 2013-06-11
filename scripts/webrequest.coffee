@@ -23,25 +23,13 @@ module.exports = (robot) ->
         switch res.statusCode
           when 200
             getFields robot, api, (err, res, body) ->
-              fields = _.pluck(_.flatten(JSON.parse(body)), "Title")
-              form = _.first(_.flatten(JSON.parse(data)))
-              msg.send "WR##{form.EntryId} | #{form.Field159}\n" +
-                       "#{form.Field166} - #{form.Field167}\n" +
-                       "#{form.Field80}, #{form.Field12}, ex:#{form.Field103}\n" +
-                       "------------------------------------------------------\n"
-              fields = _.toArray(fields).slice(7)
-              form = _.toArray(form).slice(7)
-              i = 0
+              fields = _.toArray(_.pluck(_.flatten(JSON.parse(body)), "Title"))
+              form = _.toArray(_.first(_.flatten(JSON.parse(data))))
               buildEntry = (entry) ->
                 if !_.isEmpty(entry)
                   entry = entry.replace(/<(?:.|\n)*?>/gm, '') #Strips HTML since Hipchat doesn't support it yet.
                   "[#{fields[index]}]: #{entry}"
-                
-              msg.send (buildEntry entry for entry, index in form).join('\n')
-              # _.map form, (data, key) ->
-              #     if !_.isEmpty(data)
-              #                     #       msg.send 
-              #     i++
+              msg.send (buildEntry entry for entry, index in form when entry isnt '').join('\n')
           when 404
             msg.send "There was an error!"
           when 401
