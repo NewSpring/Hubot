@@ -32,11 +32,16 @@ module.exports = (robot) ->
               fields = _.toArray(fields).slice(7)
               form = _.toArray(form).slice(7)
               i = 0
-              _.map form, (data, key) ->
-                  if !_.isEmpty(data)
-                    data = data.replace(/<(?:.|\n)*?>/gm, '') #Strips HTML since Hipchat doesn't support it yet.
-                    msg.send "#{fields[i]} #{data}"
-                  i++
+              buildEntry = (entry) ->
+                if !_.isEmpty(entry)
+                  entry = entry.replace(/<(?:.|\n)*?>/gm, '') #Strips HTML since Hipchat doesn't support it yet.
+                  "[#{fields[index]}]: #{entry}"
+                
+              msg.send (buildEntry entry for entry, index in form).join('\n')
+              # _.map form, (data, key) ->
+              #     if !_.isEmpty(data)
+              #                     #       msg.send 
+              #     i++
           when 404
             msg.send "There was an error!"
           when 401
