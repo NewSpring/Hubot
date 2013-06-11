@@ -25,10 +25,10 @@ module.exports = (robot) ->
             getFields robot, api, (err, res, body) ->
               fields = _.pluck(_.flatten(JSON.parse(body)), "Title")
               form = _.first(_.flatten(JSON.parse(data)))
-              msg.send "WR##{form.EntryId} | #{form.Field159}"
-              msg.send "#{form.Field166} - #{form.Field167}"
-              msg.send "#{form.Field80}, #{form.Field12}, ex:#{form.Field103}"
-              msg.send "------------------------------------------------------"
+              msg.send "WR##{form.EntryId} | #{form.Field159}\n" +
+                       "#{form.Field166} - #{form.Field167}\n" +
+                       "#{form.Field80}, #{form.Field12}, ex:#{form.Field103}\n" +
+                       "------------------------------------------------------\n"
               fields = _.toArray(fields).slice(7)
               form = _.toArray(form).slice(7)
               i = 0
