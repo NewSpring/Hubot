@@ -5,6 +5,7 @@
 #   hubot hears WR ####, Returns Entry #### From Wufoo 
 
 ##Include Underscore to parse response
+_ = require 'underscore'
 
 module.exports = (robot) ->
   robot.hear /(WR|wr)( (\d+))?/i, (msg) ->
@@ -16,7 +17,8 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         switch res.statusCode
           when 200
-            msg.send body
+            id = _.pluck body.entries, "EntryId"
+            msg.send id
           when 404
             msg.send "There was an error!"
           when 401
