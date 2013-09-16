@@ -1,6 +1,5 @@
-["redis-brain.coffee", 
+["redis-brain.coffee",
   "chartbeat.coffee",
-  "cloudapp.coffee",
   "dribbble.coffee",
   "facepalm.coffee",
   "gangnam.coffee",
@@ -18,7 +17,7 @@
   "swanson.coffee",
   "thanks-obama.coffee",
   "tvshow.coffee",
-  "tweet.coffee", 
+  "tweet.coffee",
   "wikipedia.coffee",
   "wunderground.coffee",
   "xkcd.coffee"]
