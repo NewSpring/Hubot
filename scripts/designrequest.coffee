@@ -8,7 +8,7 @@
 _ = require 'underscore'
 
 getFields = (robot, api, callback) ->
-    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/web-request/fields.json")
+    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/design-request/fields.json")
     .headers(Accept: 'application/json')
     .get() (err, res, body) ->
       callback(err, res, body)
@@ -17,7 +17,7 @@ module.exports = (robot) ->
   robot.hear /(DR|dr)(( |)(\d+))?/i, (msg) ->
     entry_id = msg.match[2]
     api = process.env.WUFOO_API_KEY
-    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
+    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/design-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
       .headers(Accept: 'application/json')
       .get() (err, res, data) ->
         switch res.statusCode
