@@ -8,4 +8,4 @@
 
 module.exports = (robot) ->
   robot.respond /who are you\?$/i, (msg) ->
-    msg.reply "You should probably reade this: https://www.bible.com/bible/111/act.18.24-27.niv"
+    msg.reply "You should probably read this: https://www.bible.com/bible/111/act.18.24-27.niv"
