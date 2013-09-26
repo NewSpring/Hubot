@@ -8,6 +8,9 @@
 #
 
 _ = require 'underscore'
+url = require 'url'
+querystring = require 'querystring'
+
 auth = process.env.RIGHTSCALE_API_ENDPOINT
 token = process.env.RIGHTSCALE_API_TOKEN
 base = "https://my.rightscale.com/api/"
