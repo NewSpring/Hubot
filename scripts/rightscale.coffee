@@ -17,7 +17,7 @@ base = "https://my.rightscale.com/api/"
 
 
 module.exports = (robot) ->
-  robot.router.post 'apollos/rightscale', (req, res) ->
+  robot.router.post "/apollos/rightscale", (req, res) ->
     query = querystring.parse url.parse(req.url).query
     res.end JSON.stringify {
       received: true
