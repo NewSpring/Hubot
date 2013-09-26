@@ -17,15 +17,16 @@ base = "https://my.rightscale.com/api/"
 
 
 module.exports = (robot) ->
-  robot.router.post "/apollos/rightscale", (req, res) ->
-    query = querystring.parse url.parse(req.url).query
+  robot.router.post "/apollos/rightscale/:room", (req, res) ->
+    room = req.params.room || "Web"
+
+    payload = JSON.parse req.body.payload
+    robot.messageRoom "#{paylod}"
+
     res.end JSON.stringify {
       received: true
     }
-    user = {}
-    user.room = query.room if query.room
-    payload = JSON.parse req.body.payload
-    robot.send user, "#{paylod.message}"
+
 
   robot.respond /rs (.*)/i, (msg) ->
     request = msg.match[1]
