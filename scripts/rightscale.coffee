@@ -6,8 +6,6 @@
 #   hubot rs instances, Returns information about Rightscale Instances
 #   hubot rs arrays, Returns information about Rightscale Arrays
 #
-
-_ = require 'underscore'
 url = require 'url'
 querystring = require 'querystring'
 
