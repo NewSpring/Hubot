@@ -12,7 +12,15 @@ auth = process.env.RIGHTSCALE_API_ENDPOINT
 token = process.env.RIGHTSCALE_API_TOKEN
 base = "https://my.rightscale.com/api/"
 
+
 module.exports = (robot) ->
+  robot.router.post 'apollos/rightscale/messages/:room', (req, res) ->
+    room = req.params.room
+    data = JSON.parse req.body.payload
+    secret = data.message
+
+    robot.messageRoom "#{message}"
+
   robot.respond /rs (.*)/i, (msg) ->
     request = msg.match[1]
     rightscale(token, auth, msg, request)
