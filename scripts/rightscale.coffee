@@ -16,8 +16,7 @@ base = "https://my.rightscale.com/api/"
 
 module.exports = (robot) ->
   robot.router.post "/apollos/rightscale", (req, res) ->
-    console.log(req)
-    robot.messageRoom req.body.room, req.body.message
+    robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 
   robot.respond /rs (.*)/i, (msg) ->
