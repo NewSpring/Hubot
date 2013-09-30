@@ -9,6 +9,16 @@
 url = require 'url'
 querystring = require 'querystring'
 
+kraken = [
+  "http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-release-the-kraken-12.png",
+  "http://images.wikia.com/potcoplayers/images/9/9b/Release-the-kraken.jpg",
+  "http://images.cheezburger.com/completestore/2010/4/4/129149063829780331.jpg",
+  "http://iwanticewater.files.wordpress.com/2013/04/release-the-kraken-07.jpg?w=425&h=319",
+  "http://ct.fra.bz/ol/fz/sw/i55/5/4/16/frabz-ONE-DOES-NOT-SIMPLY-RELEASE-THE-KRAKEN-03d8b2.jpg",
+  "http://i.imgur.com/PFJqA.gif",
+  "https://i.chzbgr.com/maxW500/3856985856/hA452FE76.gif"
+]
+
 auth = process.env.RIGHTSCALE_API_ENDPOINT
 token = process.env.RIGHTSCALE_API_TOKEN
 base = "https://my.rightscale.com/api/"
@@ -18,6 +28,9 @@ module.exports = (robot) ->
   robot.router.post "/apollos/rightscale", (req, res) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
+
+  robot.respond /release the kraken/i, (msg) ->
+    msg.send msg.random kraken
 
   robot.respond /rs (.*)/i, (msg) ->
     request = msg.match[1]
