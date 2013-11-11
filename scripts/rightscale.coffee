@@ -41,24 +41,30 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.respond /release the kraken/i, (msg) ->
-    request = "server_arrays/#{array}/multi_run_executable"
-    execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
-    rightscale(token, auth, msg, request, execute)
-    msg.send msg.random kraken
+    if isAdmin
+      #request = "server_arrays/#{array}/multi_run_executable"
+      #execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
+      #rightscale(token, auth, msg, request, execute)
+      msg.send msg.random kraken
+    else
+      msg.send "You must be an admin to run this function"
 
-  robot.respond /show firewall/i, (msg) ->
+  robot.respond /rs show firewall/i, (msg) ->
     request = "server_arrays/#{array}/multi_run_executable"
     execute = querystring.stringify({'recipe_name': 'sys_firewall::do_list_rules'})
     rightscale(token, auth, msg, request, execute)
 
-  robot.respond /reboot apache/i, (msg) ->
+  robot.respond /rs reboot apache/i, (msg) ->
     request = "server_arrays/#{array}/multi_run_executable"
     execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
     rightscale(token, auth, msg, request, execute)
 
-  robot.respond /rs (.*)/i, (msg) ->
+  robot.respond /rs array/i, (msg) ->
     request = msg.match[1]
     rightscale(token, auth, msg, request)
+
+isAdmin ->
+  robot.auth.hasRole(msg.envelope.user,'admin')
 
 rightscale = (token, auth, msg, request, execute = null) ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
