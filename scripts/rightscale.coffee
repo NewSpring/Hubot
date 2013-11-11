@@ -63,7 +63,7 @@ module.exports = (robot) ->
     request = msg.match[1]
     rightscale(token, auth, msg, request)
 
-isAdmin ->
+isAdmin = () ->
   robot.auth.hasRole(msg.envelope.user,'admin')
 
 rightscale = (token, auth, msg, request, execute = null) ->
