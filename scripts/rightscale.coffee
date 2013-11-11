@@ -38,7 +38,7 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.respond /rs release the kraken/i, (msg) ->
-    if isAdmin
+    if robot.auth.hasRole(msg.envelope.user,'admin') is true
       #request = "server_arrays/#{array}/multi_run_executable"
       #execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
       #rightscale(token, auth, msg, request, execute)
@@ -58,9 +58,6 @@ module.exports = (robot) ->
   robot.respond /rightscale (.*)/i, (msg) ->
     request = msg.match[1]
     rightscale(token, auth, msg, request, null, "get")
-
-isAdmin = () ->
-  robot.auth.hasRole(msg.envelope.user,'admin')
 
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
