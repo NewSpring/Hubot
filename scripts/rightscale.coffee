@@ -3,15 +3,12 @@
 #   but eventually I would like it to manage instances, arrays or deployments all from hubot.
 #
 # Commands:
-#   hubot rs instances, Returns information about Rightscale Instances
+#   hubot (rs)release the kraken, Update Application Code (requires admin privilages)
 #   hubot rs arrays, Returns information about Rightscale Arrays
+#   hubot rs reboot apache, Reboot Apache (requires apache privilages)
+#   hubot rightscale [endpoint], Runs a request against the api for information (get() request)
 #
-# Todo:
-#   Set to Grow Array
-#   Set to Shrink Array
-#   Reboot Apache
-#   Update Array
-#
+#   POST /apollos/rightscale {body, room}
 
 url = require 'url'
 querystring = require 'querystring'
@@ -40,7 +37,7 @@ module.exports = (robot) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 
-  robot.respond /release the kraken/i, (msg) ->
+  robot.respond /rs release the kraken/i, (msg) ->
     if isAdmin
       #request = "server_arrays/#{array}/multi_run_executable"
       #execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
@@ -49,24 +46,36 @@ module.exports = (robot) ->
     else
       msg.send "You must be an admin to run this function"
 
-  robot.respond /rs show firewall/i, (msg) ->
-    request = "server_arrays/#{array}/multi_run_executable"
-    execute = querystring.stringify({'recipe_name': 'sys_firewall::do_list_rules'})
-    rightscale(token, auth, msg, request, execute)
-
   robot.respond /rs reboot apache/i, (msg) ->
     request = "server_arrays/#{array}/multi_run_executable"
     execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
     rightscale(token, auth, msg, request, execute)
 
   robot.respond /rs array/i, (msg) ->
+    request = "server_arrays/#{array}/current_instances"
+    rightscale(token, auth, msg, request, null, "get")
+
+  robot.respond /rightscale (.*)/i, (msg) ->
     request = msg.match[1]
-    rightscale(token, auth, msg, request)
+    rightscale(token, auth, msg, request, null, "get")
 
 isAdmin = () ->
   robot.auth.hasRole(msg.envelope.user,'admin')
 
-rightscale = (token, auth, msg, request, execute = null) ->
+processResponse = (err, res, body, msg) ->
+  switch res.statusCode
+    when 200
+      msg.send "#{body}"
+    when 202
+      msg.send "Running Script, Rightscale should report back results"
+    when 404
+      msg.send "There was an error! #{body}"
+    when 401
+      msg.send "There was an authentication error!"
+    else
+      msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}"
+
+rightscale = (token, auth, msg, request, execute = null, method = "post") ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
@@ -76,21 +85,16 @@ rightscale = (token, auth, msg, request, execute = null) ->
       response = JSON.parse(data)
       access = response.access_token
 
-      msg.robot.http("#{base}#{request}")
-        .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
-        .post(execute) (err, res, body) ->
-          switch res.statusCode
-            when 200
-              msg.send "#{body}"
-            when 202
-              msg.send "Running Script, Rightscale should report back results."
-            when 404
-              msg.send "There was an error! #{body}"
-            when 401
-              msg.send "There was an authentication error!"
-            else
-              msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}"
-
+      if method == "post"
+        msg.robot.http("#{base}#{request}")
+          .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
+          .post(execute) (err, res, body) ->
+            processResponse(err, res, body, msg)
+      else
+        msg.robot.http("#{base}#{request}")
+          .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
+          .get() (err, res, body) ->
+            processResponse(err, res, body, msg)
 
 
 
