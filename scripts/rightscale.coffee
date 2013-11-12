@@ -82,14 +82,15 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  table = new clitable({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,25,25,19] })
-  for server in instances
-    href = server.links[0].href.split "/"
-    id = href[href.length - 1]
-    table.push(
-      ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
-    )
-  msg.send table.toString()
+ # table = new clitable({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,25,25,19] })
+  # for server in instances
+  #   href = server.links[0].href.split "/"
+  #   id = href[href.length - 1]
+  #   table.push(
+  #     ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
+  #   )
+  #msg.send table.toString()
+  msg.send "This should display servers"
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
