@@ -90,7 +90,7 @@ parseInstances = (instances, msg) ->
     table.push(
      ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
     )
-  servers = table.toString()
+  servers = table.toString('ascii')
   msg.send "#{servers}"
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
