@@ -82,7 +82,7 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  table = new clitable({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,35,25,19] })
+  table = new clitable({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,25,25,19] })
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]
