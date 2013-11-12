@@ -30,7 +30,8 @@
     "htmlparser": "1.7.6",
     "soupselect": "0.2.0",
     "redis": "0.7.2",
-    "oauth": "0.9.10"
+    "oauth": "0.9.10",
+    "cli-table": "0.2.0"
   },
 
   "engines": {

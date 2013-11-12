@@ -12,6 +12,7 @@
 
 url = require 'url'
 querystring = require 'querystring'
+clitable = require 'cli-table'
 
 kraken = [
   "http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-release-the-kraken-12.png",
@@ -81,13 +82,14 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  msg.send "Instance ID        | Name                  | State          | Public IP            "
-  msg.send "--------------------------------------------------------------------------------------"
+  table = new clitable({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,35,25,19] })
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]
-    msg.send "#{id}      | #{server.name}      | #{server.state}    | #{server.public_ip_addresses}"
-    msg.send "--------------------------------------------------------------------------------------"
+    table.push(
+      ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
+    )
+    msg.send table.toString()
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
