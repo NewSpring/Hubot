@@ -86,10 +86,10 @@ parseInstances = (instances, msg) ->
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]
-    # table.push(
-    #   ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
-    # )
-  #msg.send table.toString()
+    table.push(
+     ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
+    )
+  msg.send table.toString()
   msg.send "This should display servers"
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
