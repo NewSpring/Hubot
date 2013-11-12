@@ -89,8 +89,8 @@ parseInstances = (instances, msg) ->
     table.push(
      ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
     )
-  msg.send table.toString()
-  msg.send "This should display servers"
+  servers = table.toString()
+  msg.send "#{servers}"
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
