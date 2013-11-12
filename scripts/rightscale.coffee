@@ -83,7 +83,7 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  table = new Table({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,25,25,19] })
+  table = new Table({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [20,25,25,19], compact: true, style: { head:[], border:[] }})
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]
