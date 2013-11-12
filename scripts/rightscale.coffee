@@ -3,8 +3,8 @@
 #   but eventually I would like it to manage instances, arrays or deployments all from hubot.
 #
 # Commands:
-#   hubot (rs)release the kraken, Update Application Code (requires admin privilages)
-#   hubot rs arrays, Returns information about Rightscale Arrays
+#   hubot rs release the kraken, Update Application Code (requires admin privilages)
+#   hubot rs array, Returns information about Rightscale Arrays
 #   hubot rs reboot apache, Reboot Apache (requires apache privilages)
 #   hubot rightscale [endpoint], Runs a request against the api for information (get() request)
 #
@@ -37,20 +37,29 @@ module.exports = (robot) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 
-  robot.respond /rs release the kraken/i, (msg) ->
-    console.log(msg.envelope.user)
+  robot.respond /(rs )?(release the kraken|deploy)/i, (msg) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       #request = "server_arrays/#{array}/multi_run_executable"
       #execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
       #rightscale(token, auth, msg, request, execute)
       msg.send msg.random kraken
     else
-      msg.send "You must be an admin to run this function"
+      msg.send "Sorry, You must have 'deploy' access to for me update the site."
 
-  robot.respond /rs reboot apache/i, (msg) ->
-    request = "server_arrays/#{array}/multi_run_executable"
-    execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
-    rightscale(token, auth, msg, request, execute)
+  robot.respond /rs reboot apache ?(.*)/i, (msg) ->
+    if robot.auth.hasRole(msg.envelope.user,'deploy') is true
+      instance = msg.match[1]
+      unless instance is ""
+        msg.send "Rebooting Apache on Instance: #{instance}...."
+        #request = "server_arrays/#{array}/multi_run_executable"
+        #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
+        #rightscale(token, auth, msg, request, execute)
+      else
+        #msg.send "Rebooting Apache on Array..."
+        #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
+        #rightscale(token, auth, msg, request, execute)
+    else
+      msg.send "Sorry, You must have 'deploy' access for me to reboot apache."
 
   robot.respond /rs array/i, (msg) ->
     request = "server_arrays/#{array}/current_instances"
@@ -62,16 +71,23 @@ module.exports = (robot) ->
 
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
-    when 200
-      msg.send "#{body}"
     when 202
       msg.send "Running Script, Rightscale should report back results"
     when 404
-      msg.send "There was an error! #{body}"
+      msg.send "There was an error! #{body}, #{err}"
     when 401
-      msg.send "There was an authentication error!"
+      msg.send "There was an authentication error!, #{err}"
     else
-      msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}"
+      msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
+
+parseInstances = (instances, msg) ->
+  msg.send "Instance ID        | Name                  | State          | Public IP            "
+  msg.send "--------------------------------------------------------------------------------------"
+  for server in instances
+    href = server.links[0].href.split "/"
+    id = href[href.length - 1]
+    msg.send "#{id}      | #{server.name}      | #{server.state}    | #{server.public_ip_addresses}"
+    msg.send "--------------------------------------------------------------------------------------"
 
 rightscale = (token, auth, msg, request, execute = null, method = "post") ->
   msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
@@ -84,15 +100,20 @@ rightscale = (token, auth, msg, request, execute = null, method = "post") ->
       access = response.access_token
 
       if method == "post"
-        msg.robot.http("#{base}#{request}")
+        msg.robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .post(execute) (err, res, body) ->
             processResponse(err, res, body, msg)
       else
-        msg.robot.http("#{base}#{request}")
+        msg.robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .get() (err, res, body) ->
-            processResponse(err, res, body, msg)
-
-
+            unless res.statusCode is 200
+              processResponse(err, res, body, msg)
+            else
+              try
+                instances = JSON.parse(body)
+                parseInstances(instances, msg)
+              catch error
+                msg.send "Uh oh, I have no idea what Rightscale just sent back!"
 
