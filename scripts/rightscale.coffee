@@ -41,27 +41,33 @@ module.exports = (robot) ->
 
   robot.respond /(rs )?(release the kraken|deploy)/i, (msg) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
-      #request = "server_arrays/#{array}/multi_run_executable"
-      #execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
-      #rightscale(token, auth, msg, request, execute)
+      request = "server_arrays/#{array}/multi_run_executable"
+      execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
+      rightscale(token, auth, msg, request, execute)
+      msg.reply "OK, I'll deploy for you. Have a gif while you wait!"
       msg.send msg.random kraken
     else
-      msg.send "Sorry, You must have 'deploy' access to for me update the site."
+      msg.reply "Sorry, You must have 'deploy' access to for me update the site."
 
   robot.respond /rs reboot apache ?(.*)/i, (msg) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       instance = msg.match[1]
       unless instance is ""
-        msg.send "Rebooting Apache on Instance: #{instance}...."
-        #request = "server_arrays/#{array}/multi_run_executable"
-        #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
-        #rightscale(token, auth, msg, request, execute)
+        msg.reply "Ok, I'll reboot apache for you."
+        request = "server_arrays/#{array}/multi_run_executable"
+        execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
+        rightscale(token, auth, msg, request, execute)
       else
-        #msg.send "Rebooting Apache on Array..."
+        msg.reply "Sorry, I don't know how to reboot individual servers yet."
         #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
         #rightscale(token, auth, msg, request, execute)
     else
       msg.send "Sorry, You must have 'deploy' access for me to reboot apache."
+
+  robot.respond /rs dev deploy ?(.*)/i, (msg) ->
+    branch = msg.match[1]
+    unless branch is ""
+      msg.reply "Ok, I'll update dev with #{branch} branch."
 
   robot.respond /rs array/i, (msg) ->
     request = "server_arrays/#{array}/current_instances"
@@ -83,12 +89,12 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  table = new Table({head: ['Instance ID', 'Name', 'Public IP', 'State'], colWidths: [15,20,18,13], style: { head:[], border:[] }})
+  table = new Table({head: ['ID', 'Name', 'IP'], style: { head:[], border:[] }})
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]
     table.push(
-     ["#{id}", "#{server.name}", "#{server.public_ip_addresses}", "#{server.state}"]
+     ["#{id}", "#{server.name}", "#{server.public_ip_addresses}"]
     )
   msg.send "/quote " + table.toString()
 
