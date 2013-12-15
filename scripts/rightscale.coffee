@@ -1,15 +1,14 @@
 # Description:
 #   Rightscale integrates with the Rightscale API v1.5. Currently it only pulls information,
 #   but eventually I would like it to manage instances, arrays or deployments all from hubot.
+#   Can also accept a POST request to the hubot instance at /apollos/rightscale
 #
 # Commands:
-#   hubot rs release the kraken, Update Application Code (requires admin privilages)
+#   hubot rs deploy (release the kraken), Update Application Code (requires 'deploy' role)
+#   hubot rs reboot apache [instance], Reboots Apache Web Server on Array or Instances Specified. (requires 'deploy' role)
 #   hubot rs array, Returns information about Rightscale Arrays
-#   hubot rs reboot apache, Reboot Apache (requires apache privilages)
-#   hubot rightscale [endpoint], Runs a request against the api for information (get() request)
+#   hubot rightscale [endpoint], Runs a request against the api and outputs the JSON response.
 #
-#   POST /apollos/rightscale {body, room}
-
 url = require 'url'
 querystring = require 'querystring'
 Table = require 'cli-table'
@@ -62,7 +61,7 @@ module.exports = (robot) ->
         #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
         #rightscale(token, auth, msg, request, execute)
     else
-      msg.send "Sorry, You must have 'deploy' access for me to reboot apache."
+      msg.reply "Sorry, You must have 'deploy' access for me to reboot apache."
 
   robot.respond /rs dev deploy ?(.*)/i, (msg) ->
     branch = msg.match[1]
@@ -80,7 +79,7 @@ module.exports = (robot) ->
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
     when 202
-      msg.send "Running Script, Rightscale should report back results"
+      msg.send "Ok, I've told Rightscale what to do. There should be a response soon."
     when 404
       msg.send "There was an error! #{body}, #{err}"
     when 401

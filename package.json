@@ -32,7 +32,8 @@
     "redis": "0.7.2",
     "oauth": "0.9.10",
     "cli-table": "0.2.0",
-    "rackspace-api": "0.0.7"
+    "pkgcloud": "https://github.com/nodejitsu/pkgcloud/tarball/master",
+    "moment": "2.4.0"
   },
 
   "engines": {
