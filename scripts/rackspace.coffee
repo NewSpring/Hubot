@@ -4,9 +4,7 @@
 #
 # Commands:
 #   hubot rack servers, Return table of the servers in Rackspace.
-#   hubot rack databases, Returns table of information about the Databases // Not Implemented
-#   hubot rack loadbalancerss, Returns table of information about the load balancers
-#
+#   hubot rack loadbalancers, Returns table of information about the load balancers
 #
 
 url = require "url"
@@ -18,9 +16,9 @@ moment = require "moment"
 
 rackspace = {
     provider: 'rackspace',
-    username: 'newspringchurch',
-    apiKey: 'ecccd27c5febf908280b7c0e0cf2aa9d'
-    region: 'ORD'
+    username: process.env.RACKSPACE_USERNAME,
+    apiKey: process.env.RACKSPACE_API,
+    region: process.env.RACKSPACE_REGION
 }
 
 module.exports = (robot) ->
