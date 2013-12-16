@@ -6,6 +6,7 @@
 #   hubot rack servers, Return table of the servers in Rackspace.
 #   hubot rack loadbalancers, Returns table of information about the load balancers
 #
+#
 
 url = require "url"
 querystring = require "querystring"
