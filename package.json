@@ -17,7 +17,7 @@
   "dependencies": {
     "hubot-hipchat": "https://github.com/NewSpring/hubot-hipchat/tarball/master",
     "hubot":         "2.6.4",
-    "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
+    "hubot-scripts": "https://github.com/newspring/hubot-scripts/tarball/master",
     "underscore": "1.3.3",
     "underscore.string": "2.1.1",
 	  "jsdom": 	">=0.2.0",

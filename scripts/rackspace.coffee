@@ -30,7 +30,6 @@ module.exports = (robot) ->
       else
         table = new Table({head: ['Name', 'Public IP', 'Private IP', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }})
         for server in servers
-          # console.log(util.inspect(server, false, null))
           publicIp = server.original.accessIPv4 || 'Not Set'
           privateIp = server.addresses.private[0].addr || 'Not Set'
           now = moment()
@@ -49,7 +48,6 @@ module.exports = (robot) ->
       else
         table = new Table({head: ['Name', 'Protocol', 'Port', 'Public IP', 'Nodes'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }})
         for lbs in loadbalancers
-          #console.log(util.inspect(lbs, false, null))
           table.push(
            ["#{lbs.name}", "#{lbs.protocol}", "#{lbs.port}", "#{lbs.virtualIps[0].address}", "#{lbs.nodeCount}"]
           )
