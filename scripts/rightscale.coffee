@@ -68,10 +68,6 @@ module.exports = (robot) ->
     unless branch is ""
       msg.reply "Ok, I'll update dev with #{branch} branch."
 
-  robot.respond /rs array/i, (msg) ->
-    request = "server_arrays/#{array}/current_instances"
-    rightscale(token, auth, msg, request, null, "get")
-
   robot.respond /rightscale (.*)/i, (msg) ->
     request = msg.match[1]
     rightscale(token, auth, msg, request, null, "get")
@@ -88,7 +84,7 @@ processResponse = (err, res, body, msg) ->
       msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 parseInstances = (instances, msg) ->
-  table = new Table({head: ['ID', 'Name', 'IP'], style: { head:[], border:[] }})
+  table = new Table({head: ['ID', 'Name', 'IP'], style: { head:[], border:[], "padding-left" : 1, "padding-right" : 1 }})
   for server in instances
     href = server.links[0].href.split "/"
     id = href[href.length - 1]

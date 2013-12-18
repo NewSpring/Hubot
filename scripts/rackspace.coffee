@@ -55,3 +55,29 @@ module.exports = (robot) ->
         msg.send "/quote " + table.toString()
     )
 
+  robot.respond /rack dns (.*)/i, (msg) ->
+    domain = escape(msg.match[1])
+    client = pkgcloud.dns.createClient(rackspace)
+    details = {name: domain}
+    client.getZones(details, (err, zones) ->
+      if(err)
+        msg.send err
+      else
+        if (zones.length < 1)
+          msg.send "I didn't find that domain at Rackspace!"
+          return false
+
+        client.getRecords(zones[0].id,( err, records) ->
+          if(err)
+            msg.send err
+          else
+            table = new Table({head: ['Name', 'Type', 'Data', 'TTL'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }})
+            for record in records
+              table.push(
+               ["#{record.name}", "#{record.type}", "#{record.data}", "#{moment.duration((record.ttl/60), "minutes" ).humanize()}"]
+              )
+            msg.send "/quote " + table.toString()
+        )
+    )
+
+
