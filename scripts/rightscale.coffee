@@ -24,7 +24,10 @@ kraken = [
   "https://i.chzbgr.com/maxW500/3856985856/hA452FE76.gif",
   "http://2.bp.blogspot.com/_EBmpqCL3evc/S6mUc9g7zQI/AAAAAAAADmE/KpG-INWpjO8/s400/release-the-kraken-seal.jpg",
   "http://winningateverything.com/files/2012/05/WA_flasking.jpg",
-  "http://www.quickmeme.com/img/26/26f068bfb19d27a5babc9574e9a6c8a12cc0b8e35757c4e26ee3db93e109f186.jpg"
+  "http://www.quickmeme.com/img/26/26f068bfb19d27a5babc9574e9a6c8a12cc0b8e35757c4e26ee3db93e109f186.jpg",
+  "http://img5.joyreactor.com/pics/post/auto-230035.jpeg",
+  "https://i.chzbgr.com/maxW500/3399431168/h9C7FB6D7/",
+  "https://i.chzbgr.com/maxW500/3383435776/h4DE5FE63/"
 ]
 
 auth = process.env.RIGHTSCALE_API_ENDPOINT
@@ -41,7 +44,7 @@ module.exports = (robot) ->
   robot.respond /(rs )?(release the kraken|deploy)/i, (msg) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       request = "server_arrays/#{array}/multi_run_executable"
-      execute = querystring.stringify({'recipe_name': 'expressionengine::update','inputs[][name]': 'ee/env', 'inputs[][value]':'text:prod'})
+      execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
       rightscale(token, auth, msg, request, execute)
       msg.reply "OK, I'll deploy for you. Have a gif while you wait!"
       msg.send msg.random kraken
