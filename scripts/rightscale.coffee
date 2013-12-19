@@ -41,7 +41,7 @@ module.exports = (robot) ->
   robot.respond /(rs )?(release the kraken|deploy)/i, (msg) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       request = "server_arrays/#{array}/multi_run_executable"
-      execute = querystring.stringify({'recipe_name': 'expressionengine::update'})
+      execute = querystring.stringify({'recipe_name': 'expressionengine::update','inputs[][name]': 'ee/env', 'inputs[][value]':'text:prod'})
       rightscale(token, auth, msg, request, execute)
       msg.reply "OK, I'll deploy for you. Have a gif while you wait!"
       msg.send msg.random kraken
