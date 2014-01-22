@@ -34,7 +34,7 @@ auth = process.env.RIGHTSCALE_API_ENDPOINT
 token = process.env.RIGHTSCALE_API_TOKEN
 array = process.env.RIGHTSCALE_ARRAY
 
-base = "https://my.rightscale.com/api/"
+base = "https://us-4.rightscale.com/api/"
 
 module.exports = (robot) ->
   robot.router.post "/apollos/rightscale", (req, res) ->
