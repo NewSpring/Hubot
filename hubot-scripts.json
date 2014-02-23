@@ -6,8 +6,6 @@
   "geocodeme.coffee",
   "git-help.coffee",
   "github-credentials.coffee",
-  "github-issues.coffee",
-  "github-issue-link.coffee",
   "github-status.coffee",
   "inigo-montoya.coffee",
   "karma.coffee",
