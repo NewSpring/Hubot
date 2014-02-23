@@ -19,4 +19,5 @@
   "tvshow.coffee",
   "wikipedia.coffee",
   "wunderground.coffee",
-  "xkcd.coffee"]
+  "xkcd.coffee",
+  "responders.coffee"]
