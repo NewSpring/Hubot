@@ -70,6 +70,8 @@ module.exports = (robot) ->
 
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
+    when 202
+      msg.send "Rightscale has been instructed to deploy...please wait."
     when 404
       msg.send "There was an error! #{body}, #{err}"
     when 401
