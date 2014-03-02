@@ -38,7 +38,6 @@ module.exports = (robot) ->
         env = "production"
         array = prod_array
       else if env is "stag" or env is "staging" or env is "dev"
-        msg.send branch
         if branch is ""
           branch = "develop"
         array = dev_array
@@ -48,9 +47,8 @@ module.exports = (robot) ->
         return false
 
       request = "server_arrays/#{array}/multi_run_executable"
-      execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/system_folder", "inputs[][value]":"#{branch}"})
-      console.log execute
-      #rightscale(token, auth, msg, request, execute)
+      execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
+      rightscale(token, auth, msg, request, execute)
       msg.reply "OK, deploying #{branch} on #{env}..."
     else
       msg.reply "Sorry, You must have 'deploy' access to for me update the site."
