@@ -5,6 +5,8 @@
 #  follow the sequence from Jurassic Park
 #
 module.exports = (robot) ->
+  magicWord = null
+
   robot.hear /(access security)/i, (msg) ->
     msg.send "/quote access: PERMISSION DENIED."
 
