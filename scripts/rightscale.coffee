@@ -32,7 +32,7 @@ module.exports = (robot) ->
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       vars = msg.match[1].split(" ")
       env = vars[0]
-      branch = vars[1] || "master"
+      branch = vars[1] || "develop"
 
       unless (url_api_base = process.env.HUBOT_GITHUB_API)?
         url_api_base = "https://api.github.com"
@@ -48,22 +48,22 @@ module.exports = (robot) ->
         names = _.pluck(branches, "name")
         if _.contains(names, "#{branch}") is true
           if env is "prod" or env is "production"
-            unless branch is "master"
+            unless branch is "master" or branch is "develop"
               msg.send "You can only deploy master to production."
+              return false
+            branch = "master"
             env = "production"
             array = prod_array
           else if env is "stag" or env is "staging" or env is "dev"
-            unless branch is "master"
+            if branch is "master"
               msg.reply "You cannot deploy master to the staging array. Choose a different branch or leave blank to deploy the develop branch."
               return false
-            if branch is ""
-              branch = "develop"
             array = dev_array
             env = "staging"
 
           request = "server_arrays/#{array}/multi_run_executable"
           execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
-          #rightscale(token, auth, msg, request, execute)
+          rightscale(token, auth, msg, request, execute)
           msg.reply "OK, deploying #{branch} on #{env}..."
         else
           msg.send "Check your spelling. That branch is not on Github."
