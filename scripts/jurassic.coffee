@@ -14,7 +14,7 @@ module.exports = (robot) ->
     msg.send "/quote access: PERMISSION DENIED....and..."
     magicWord = setInterval () ->
       msg.send "/quote YOU DIDN'T SAY THE MAGIC WORD!"
-    , 150
+    , 500
     msg.send "http://25.media.tumblr.com/8566ef54aefe210f0706b8768a62ff5c/tumblr_mh38zhM4vs1qj1te0o1_400.gif"
 
   robot.hear /shutdown the system/i, (msg) ->
