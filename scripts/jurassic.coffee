@@ -22,6 +22,9 @@ module.exports = (robot) ->
       msg.send "Hold on to your butts..."
       clearInterval(magicWord)
       magicWord = null
+      setTimeout () ->
+        msg.send "System Ready."
+      , 5000
     else
       msg.send "System Ready."
 
