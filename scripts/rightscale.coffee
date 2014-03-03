@@ -50,12 +50,13 @@ module.exports = (robot) ->
           if env is "prod" or env is "production"
             unless branch is "master"
               msg.send "You can only deploy master to production."
-            branch = "master"
             env = "production"
             array = prod_array
           else if env is "stag" or env is "staging" or env is "dev"
-            if branch is "master"
-              msg.send "You cannot deploy master to the staging array. Choose a different branch or leave blank to deploy the develop branch."
+            unless branch is "master"
+              msg.reply "You cannot deploy master to the staging array. Choose a different branch or leave blank to deploy the develop branch."
+              return false
+            if branch is ""
               branch = "develop"
             array = dev_array
             env = "staging"
