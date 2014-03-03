@@ -48,7 +48,7 @@ module.exports = (robot) ->
         names = _.pluck(branches, "name")
         if _.contains(names, "#{branch}") is true
           if env is "prod" or env is "production"
-            if branch is not "master"
+            unless branch is "master"
               msg.send "You can only deploy master to production."
             branch = "master"
             env = "production"
