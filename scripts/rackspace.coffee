@@ -4,8 +4,8 @@
 #
 # Commands:
 #   hubot rack servers, Return table of the servers in Rackspace.
-#   hubot rack loadbalancers, Returns table of information about the load balancers
-#
+#   hubot rack clb, Returns table of information about the load balancers
+#   hubot rack dns [domain], Returns information about the specified DNS entry in rackspace.
 #
 
 url = require "url"
