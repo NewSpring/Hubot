@@ -41,7 +41,7 @@ module.exports = (robot) ->
         msg.send "/quote " + table.toString()
     )
 
-  robot.respond /rack loadbalancers/i, (msg) ->
+  robot.respond /rack clb/i, (msg) ->
     client = pkgcloud.loadbalancer.createClient(rackspace)
     client.getLoadBalancers((err, loadbalancers) ->
       if(err)
