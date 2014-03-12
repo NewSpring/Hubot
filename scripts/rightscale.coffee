@@ -4,9 +4,9 @@
 #   Can also accept a POST request to the hubot instance at /apollos/rightscale
 #
 # Commands:
-#   hubot rs deploy (release the kraken), Update Application Code (requires 'deploy' role)
+#   hubot rs deploy [env] [branch], Update Application Code (requires 'deploy' role)
 #   hubot rs reboot apache [instance], Reboots Apache Web Server on Array or Instances Specified. (requires 'deploy' role)
-#   hubot rs array, Returns information about Rightscale Arrays
+#   hubot rs rollback [env], Required to specify an environment.
 #   hubot rightscale [endpoint], Runs a request against the api and outputs the JSON response.
 #
 url         = require 'url'
@@ -78,7 +78,7 @@ module.exports = (robot) ->
       unless instance is ""
         msg.reply "Ok, I'll reboot apache for you."
         request = "server_arrays/#{array}/multi_run_executable"
-        execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
+        execute = querystring.stringify({'recipe_name': 'expressionengine::do_reboot_apache'})
         #rightscale(token, auth, msg, request, execute)
       else
         msg.reply "Sorry, I don't know how to reboot individual servers yet."
@@ -86,6 +86,28 @@ module.exports = (robot) ->
         #rightscale(token, auth, msg, request, execute)
     else
       msg.reply "Sorry, You must have 'deploy' access for me to reboot apache."
+
+  robot.respond /rs rollback ?(.*)/i, (msg) ->
+    if robot.auth.hasRole(msg.envelope.user,'deploy') is true
+      instance = msg.match[1]
+      unless instance is ""
+        if instance == "prod" or instance == "production"
+          msg.reply "Ok, Rolling back production array to previous release..."
+          request = "server_arrays/#{prod_array}/multi_run_executable"
+          execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
+          rightscale(token, auth, msg, request, execute)
+        else if instance == "stag" or instance == "staging" or instance == "dev"
+          msg.reply "Ok, Rolling back staging array to previous release..."
+          request = "server_arrays/#{dev_array}/multi_run_executable"
+          execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
+          rightscale(token, auth, msg, request, execute)
+        else
+          msg.reply "I'm not sure which environment I should rollback?"
+      else
+        msg.reply "Which environment should I rollback?"
+    else
+      msg.reply "Sorry, You must have 'deploy' access for me to rollback a release."
+
 
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
