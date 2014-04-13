@@ -89,6 +89,7 @@ module.exports = (robot) ->
   robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i, (msg) ->
     name    = "@#{msg.match[2].trim()}"
     user = robot.brain.userForName(name)
+    console.log(user)
     return msg.reply "#{name} does not exist" unless user?
     user.roles or= []
 
