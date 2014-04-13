@@ -50,11 +50,12 @@ module.exports = (robot) ->
   robot.auth = new Auth
 
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
-    name    = "@#{msg.match[1].trim()}"
+    name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
       user = robot.brain.userForName(name)
+      console.log(user)
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
 
@@ -70,11 +71,13 @@ module.exports = (robot) ->
             msg.reply "Ok, #{name} has the '#{newRole}' role."
 
   robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
-    name    = "@#{msg.match[1].trim()}"
+    name    = msg.match[1].trim()
+    console.log(name)
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
       user = robot.brain.userForName(name)
+      console.log(user)
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
 
@@ -87,9 +90,10 @@ module.exports = (robot) ->
           msg.reply "Ok, #{name} doesn't have the '#{newRole}' role."
 
   robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i, (msg) ->
-    name    = "@#{msg.match[2].trim()}"
+    name    = msg.match[2].trim()
     user = robot.brain.userForName(name)
     console.log(user)
+    console.log(name)
     return msg.reply "#{name} does not exist" unless user?
     user.roles or= []
 
