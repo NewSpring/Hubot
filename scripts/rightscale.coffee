@@ -73,7 +73,6 @@ module.exports = (robot) ->
 
 
   robot.respond /rs reboot apache ?(.*)/i, (msg) ->
-    console.log(msg.envelope.user)
     if robot.auth.hasRole(msg.envelope.user,'deploy') is true
       instance = msg.match[1]
       unless instance is ""
