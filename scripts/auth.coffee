@@ -52,7 +52,7 @@ module.exports = (robot) ->
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
-    console.log(name)
+    console.log(msg.message.user.mention_name.id)
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
       user = robot.brain.userForName(name)
       return msg.reply "#{name} does not exist" unless user?
