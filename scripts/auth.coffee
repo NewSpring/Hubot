@@ -54,7 +54,7 @@ module.exports = (robot) ->
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      user = robot.brain.userForName(name)
+      user = robot.brain.userForId(msg.message.user.id)
       console.log(user)
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
