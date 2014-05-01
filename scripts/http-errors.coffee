@@ -13,7 +13,8 @@
 # Author:
 #   delianides
 #
-jsdom = require("jsdom").jsdom
+jsdom = require "jsdom"
+jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js'
 
 module.exports = (robot) ->
   robot.respond /http error (\d{3})/i, (msg) ->
@@ -22,19 +23,10 @@ module.exports = (robot) ->
     msg
       .http('http://en.wikipedia.org/wiki/List_of_HTTP_status_codes')
       .get() (err, res, body) ->
-        window = (jsdom body, null,
-          features :
-            FetchExternalResources : false
-            ProcressExternalResources : false
-            MutationEvents : false
-            QuerySelector : false
-        ).createWindow()
-
-        $ = require('jquery').create(window)
-
-        statusCode = $('#'+error).parent().text()
-        if statusCode
-          msg.send statusCode
-          msg.send "http://en.wikipedia.org/wiki/List_of_HTTP_status_codes##{error}"
-        else
-          msg.send "Error Code #{error} doesn't exist. Ironically, this would be HTTP Error 404"
+        jsdom.env body, [jquery], (errors, window) ->
+          statusCode = window.$('#'+error).parent().text()
+          if statusCode
+            msg.send statusCode
+            msg.send "http://en.wikipedia.org/wiki/List_of_HTTP_status_codes##{error}"
+          else
+            msg.send "Error Code #{error} doesn't exist. Ironically, this would be HTTP Error 404"
