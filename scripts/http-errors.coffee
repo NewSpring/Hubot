@@ -18,7 +18,6 @@ jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js'
 
 module.exports = (robot) ->
   robot.respond /http error (\d{3})/i, (msg) ->
-    msg.send "Looking..."
     error = msg.match[1]
     msg
       .http('http://en.wikipedia.org/wiki/List_of_HTTP_status_codes')
