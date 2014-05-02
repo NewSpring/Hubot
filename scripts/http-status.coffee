@@ -8,7 +8,6 @@
 #   None
 #
 # Commands:
-#   hubot http error ###
 #   hubot http status ###
 #
 # Author:
@@ -19,8 +18,8 @@ jsdom = require "jsdom"
 jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js'
 
 module.exports = (robot) ->
-  robot.respond /http (error|status) (.*)/i, (msg) ->
-    httpCode = msg.match[2]
+  robot.respond /http status (.*)/i, (msg) ->
+    httpCode = msg.match[1]
     msg
       .http('http://en.wikipedia.org/wiki/List_of_HTTP_status_codes')
       .get() (err, res, body) ->
