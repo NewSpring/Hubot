@@ -1,12 +1,13 @@
 # Apollos
 
-This is a version of GitHub's Campfire bot, hubot. He's pretty cool.
+This is a version of GitHub's Campfire bot, hubot. He's pretty cool. We've named
+him Apollos.
 
 This version is designed to be deployed on [Heroku][heroku].
 
 [heroku]: http://www.heroku.com
 
-## Playing with Hubot
+## Playing with Apollos
 
 You'll need to install the necessary dependencies for hubot. All of
 those dependencies are provided by [npm][npmjs].
