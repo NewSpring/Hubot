@@ -149,27 +149,19 @@ Please check out the [deploying hubot onto UNIX][deploy-unix] and
 [deploy-unix]: https://github.com/github/hubot/wiki/Deploying-Hubot-onto-UNIX
 [deploy-windows]: https://github.com/github/hubot/wiki/Deploying-Hubot-onto-Windows
 
-## Campfire Variables
+## HipChat Variables
 
-If you are using the Campfire adapter you will need to set some environment
+If you are using the [HipChat](https://github.com/hipchat/hubot-hipchat) adapter you will need to set some environment
 variables. Refer to the documentation for other adapters and the configuraiton
 of those, links to the adapters can be found on the [hubot wiki][hubot-wiki].
 
-Create a separate Campfire user for your bot and get their token from the web
-UI.
+Create a separate HipChat user for your bot. Set the JID to the "Jabber ID" shown on your bot's [XMPP/Jabber account settings](https://www.hipchat.com/account/xmpp):
 
-    % heroku config:add HUBOT_CAMPFIRE_TOKEN="..."
+    % heroku config:add HUBOT_HIPCHAT_JID="..."
 
-Get the numeric IDs of the rooms you want the bot to join, comma delimited. If
-you want the bot to connect to `https://mysubdomain.campfirenow.com/room/42` 
-and `https://mysubdomain.campfirenow.com/room/1024` then you'd add it like this:
+Set the password to the password chosen when you created the bot's account.
 
-    % heroku config:add HUBOT_CAMPFIRE_ROOMS="42,1024"
-
-Add the subdomain hubot should connect to. If you web URL looks like
-`http://mysubdomain.campfirenow.com` then you'd add it like this:
-
-    % heroku config:add HUBOT_CAMPFIRE_ACCOUNT="mysubdomain"
+    % heroku config:add HUBOT_HIPCHAT_PASSWORD="..."
 
 [hubot-wiki]: https://github.com/github/hubot/wiki
 
