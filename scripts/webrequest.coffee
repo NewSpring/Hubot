@@ -2,22 +2,23 @@
 #   WebRequest is the most important thing in your life
 #
 # Commands:
-#   hubot hears WR ####, Returns Entry #### From Wufoo 
+#   hubot hears WR ####, Returns Entry #### From Wufoo
 
 ##Include Underscore to parse response
 _ = require 'underscore'
+WUFOO_FORM_ID = 'z1sb20a30gpllgl'
 
 getFields = (robot, api, callback) ->
-    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/web-request/fields.json")
+    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/#{WUFOO_FORM_ID}/fields.json")
     .headers(Accept: 'application/json')
     .get() (err, res, body) ->
       callback(err, res, body)
-     
+
 module.exports = (robot) ->
   robot.hear /(WR|wr)(( |)(\d+))?/i, (msg) ->
     entry_id = msg.match[2]
     api = process.env.WUFOO_API_KEY
-    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/web-request/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
+    robot.http("https://#{api}:newspring@newspring.wufoo.com/api/v3/forms/#{WUFOO_FORM_ID}/entries.json?Filter1=EntryId+Is_equal_to+#{entry_id}")
       .headers(Accept: 'application/json')
       .get() (err, res, data) ->
         switch res.statusCode
@@ -31,7 +32,7 @@ module.exports = (robot) ->
                   "[#{fields[index]}]: #{entry}"
               msg.send (buildEntry entry for entry, index in form when entry isnt '').join('\n')
           when 404
-            msg.send "There was an error!"
+            msg.send "There was an error with Wufoo: Entry Not Found!"
           when 401
             msg.send "There was an authentication error!"
           else
