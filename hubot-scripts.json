@@ -1,5 +1,4 @@
 ["redis-brain.coffee",
-  "chartbeat.coffee",
   "dribbble.coffee",
   "facepalm.coffee",
   "gangnam.coffee",
@@ -8,7 +7,6 @@
   "github-credentials.coffee",
   "github-status.coffee",
   "inigo-montoya.coffee",
-  "karma.coffee",
   "newrelic.coffee",
   "rotten.coffee",
   "shipit.coffee",
