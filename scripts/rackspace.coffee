@@ -38,7 +38,7 @@ module.exports = (robot) ->
           table.push(
            ["#{server.name}", "#{publicIp}", "#{privateIp}", "#{since}"]
           )
-        msg.send "/quote " + table.toString()
+        msg.plain table.toString()
     )
 
   robot.respond /rack clb/i, (msg) ->
@@ -52,7 +52,7 @@ module.exports = (robot) ->
           table.push(
            ["#{lbs.name}", "#{lbs.protocol}", "#{lbs.port}", "#{lbs.virtualIps[0].address}", "#{lbs.nodeCount}"]
           )
-        msg.send "/quote " + table.toString()
+        msg.plain table.toString()
     )
 
   robot.respond /rack dns (.*)/i, (msg) ->
@@ -76,7 +76,7 @@ module.exports = (robot) ->
               table.push(
                ["#{record.name}", "#{record.type}", "#{record.data}", "#{moment.duration((record.ttl/60), "minutes" ).humanize()}"]
               )
-            msg.send "/quote " + table.toString()
+            msg.plain table.toString()
         )
     )
 
