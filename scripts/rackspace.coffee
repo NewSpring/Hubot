@@ -47,8 +47,8 @@ module.exports = (robot) ->
                 "#{region}",
                 "#{since}"]
             )
-          msg.plain table.toString()
       )
+    msg.plain table.toString()
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
@@ -72,8 +72,8 @@ module.exports = (robot) ->
               "#{asIp(lbs.virtualIps[0].address)}",
               "#{lbs.nodeCount}"]
             )
-          msg.plain table.toString()
       )
+    msg.plain table.toString()
 
   robot.respond /rack dns (.*)/i, (msg) ->
     domain = escape(msg.match[1])
