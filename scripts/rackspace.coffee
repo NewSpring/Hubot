@@ -53,7 +53,7 @@ module.exports = (robot) ->
               ["#{server.name}",
                 "#{server.original.accessIPv4}",
                 "#{server.addresses.private[0].addr}",
-                "#{server.region}",
+                "#{server.client.region}",
                 "#{since}"])
 
           msg.send "#{QUOTE} #{table.toString()}"
