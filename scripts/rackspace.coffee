@@ -39,6 +39,9 @@ module.exports = (robot) ->
       head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age']
       , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
     })
+
+    server_data = []
+
     for region in REGIONS
       rackspace.region = region
       client = pkgcloud.compute.createClient(rackspace)
@@ -50,7 +53,7 @@ module.exports = (robot) ->
         else
           for server in servers
             since = now.from(server.original.created, true)
-            table.push(
+            server_data.push(
               ["#{server.name}",
                 "#{server.original.accessIPv4}",
                 "#{server.addresses.private[0].addr}",
@@ -58,6 +61,8 @@ module.exports = (robot) ->
                 "#{since}"]
             )
       )
+      console.log(server_data)
+      table.push(server_data)
     msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
