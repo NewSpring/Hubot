@@ -45,8 +45,8 @@ module.exports = (robot) ->
           msg.send err
           return false
         else
+          table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
           for server in servers
-            table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
             now = moment()
             since = now.from(server.original.created, true)
             table.push(
