@@ -56,8 +56,9 @@ module.exports = (robot) ->
                 "#{server.client.region}",
                 "#{since}"]
             )
+
+        msg.send "#{QUOTE} #{table.toString()}"
       )
-      msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
