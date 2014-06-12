@@ -41,19 +41,19 @@ module.exports = (robot) ->
       rackspace.region = region
       client = pkgcloud.compute.createClient(rackspace)
       client.getServers((err, servers) ->
-        table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
         if(err)
           msg.send err
           return false
         else
           for server in servers
+            table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
             now = moment()
             since = now.from(server.original.created, true)
             table.push(
               ["#{server.name}",
                 "#{server.original.accessIPv4}",
                 "#{server.addresses.private[0].addr}",
-                "#{client.config.region}",
+                "#{region}",
                 "#{since}"])
 
           msg.send "#{QUOTE} #{table.toString()}"
