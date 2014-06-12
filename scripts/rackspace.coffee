@@ -48,7 +48,6 @@ module.exports = (robot) ->
           return false
         else
           for server in servers
-            console.log(server)
             now = moment()
             since = now.from(server.original.created, true)
             table.push(
@@ -56,8 +55,8 @@ module.exports = (robot) ->
                 "#{asIp(server.original.accessIPv4)}",
                 "#{asIp(server.addresses.private[0].addr)}",
                 "#{region}",
-                "#{since}"]
-            )
+                "#{since}"])
+            console.log(table.toString())
       )
     msg.send "#{QUOTE} #{table.toString()}"
 
