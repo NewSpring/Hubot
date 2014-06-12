@@ -37,6 +37,7 @@ module.exports = (robot) ->
 
 
   robot.respond /rack servers/i, (msg) ->
+    table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
     for region in REGIONS
       rackspace.region = region
       client = pkgcloud.compute.createClient(rackspace)
@@ -45,7 +46,6 @@ module.exports = (robot) ->
           msg.send err
           return false
         else
-          table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
           for server in servers
             now = moment()
             since = now.from(server.original.created, true)
