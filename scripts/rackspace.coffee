@@ -54,10 +54,10 @@ module.exports = (robot) ->
                 "#{server.original.accessIPv4}",
                 "#{server.addresses.private[0].addr}",
                 "#{server.client.region}",
-                "#{since}"])
-
-          msg.send "#{QUOTE} #{table.toString()}"
+                "#{since}"]
+            )
       )
+      msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
