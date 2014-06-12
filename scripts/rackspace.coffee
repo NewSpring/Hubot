@@ -34,20 +34,21 @@ rackspace = {
 REGIONS = ["ord","dfw","iad","syd","hkg"]
 
 module.exports = (robot) ->
-
-
   robot.respond /rack servers/i, (msg) ->
-    table = new Table({ head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'], style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 } })
+    table = new Table({
+      head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age']
+      , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
+    })
     for region in REGIONS
       rackspace.region = region
       client = pkgcloud.compute.createClient(rackspace)
+      now = moment()
       client.getServers((err, servers) ->
         if(err)
           msg.send err
           return false
         else
           for server in servers
-            now = moment()
             since = now.from(server.original.created, true)
             table.push(
               ["#{server.name}",
@@ -56,14 +57,13 @@ module.exports = (robot) ->
                 "#{server.client.region}",
                 "#{since}"]
             )
-
-        msg.send "#{QUOTE} #{table.toString()}"
       )
+    msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
-      head: ['Name', 'Protocol', 'Port', 'Public IP', 'Nodes'],
-      style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
+      head: ['Name', 'Protocol', 'Port', 'Public IP', 'Nodes']
+      , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
     })
 
     for region in REGIONS
