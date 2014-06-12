@@ -22,7 +22,7 @@ Table = require "cli-table"
 pkgcloud = require "pkgcloud"
 moment = require "moment"
 
-QUOTE = process.env.HUBOT_QUOTE_STRING || nil
+QUOTE = process.env.HUBOT_QUOTE_STRING
 
 rackspace = {
     provider: 'rackspace',
@@ -58,9 +58,9 @@ module.exports = (robot) ->
                 "#{server.addresses.private[0].addr}",
                 "#{client.config.region}",
                 "#{since}"])
-            console.log(table.toString())
+
+          msg.send "#{QUOTE} #{table.toString()}"
       )
-    msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
