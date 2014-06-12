@@ -1,6 +1,5 @@
 ["hubot-http-status",
   "hubot-chartbeat",
   "hubot-browserstack",
-  "hubot-plusplus",
-  "hubot-rackspace"
+  "hubot-plusplus"
 ]
