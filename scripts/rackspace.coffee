@@ -34,6 +34,8 @@ rackspace = {
 REGIONS = ["ord","dfw","iad","syd","hkg"]
 
 module.exports = (robot) ->
+
+
   robot.respond /rack servers/i, (msg) ->
     table = new Table({
       head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age'],
@@ -52,13 +54,13 @@ module.exports = (robot) ->
             since = now.from(server.original.created, true)
             table.push(
               ["#{server.name}",
-                "#{asIp(server.original.accessIPv4)}",
-                "#{asIp(server.addresses.private[0].addr)}",
-                "#{region}",
+                "#{server.original.accessIPv4}",
+                "#{server.addresses.private[0].addr}",
+                "#{client.config.region}",
                 "#{since}"])
             console.log(table.toString())
       )
-      msg.send "#{QUOTE} #{table.toString()}"
+    msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack clb/i, (msg) ->
     table = new Table({
