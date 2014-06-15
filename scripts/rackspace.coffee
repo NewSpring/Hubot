@@ -21,6 +21,8 @@
 Table = require "cli-table"
 pkgcloud = require "pkgcloud"
 moment = require "moment"
+_ = require('underscore')
+async = require('async')
 
 QUOTE = process.env.HUBOT_QUOTE_STRING
 
@@ -31,17 +33,10 @@ rackspace = {
     region: 'ord'
 }
 
-REGIONS = ["ord","dfw","iad","syd","hkg"]
+REGIONS = process.env.HUBOT_RACKSPACE_REGIONS.split ","
 
 module.exports = (robot) ->
   robot.respond /rack servers/i, (msg) ->
-    table = new Table({
-      head: ['Name', 'Public IP', 'Private IP', 'Region', 'Age']
-      , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
-    })
-
-    server_data = []
-
     for region in REGIONS
       rackspace.region = region
       client = pkgcloud.compute.createClient(rackspace)
@@ -51,26 +46,25 @@ module.exports = (robot) ->
           msg.send err
           return false
         else
+          table = new Table({
+            head: ['Name', 'Public IP', 'Private IP', 'Region', 'Nodes']
+            , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
+          })
+
           for server in servers
             since = now.from(server.original.created, true)
-            server_data.push(
+            table.push(
               ["#{server.name}",
                 "#{server.original.accessIPv4}",
                 "#{server.addresses.private[0].addr}",
                 "#{server.client.region}",
                 "#{since}"]
             )
+          msg.send "#{QUOTE} #{table.toString()}"
       )
-      console.log(server_data)
-      table.push(server_data)
-    msg.send "#{QUOTE} #{table.toString()}"
+
 
   robot.respond /rack clb/i, (msg) ->
-    table = new Table({
-      head: ['Name', 'Protocol', 'Port', 'Public IP', 'Nodes']
-      , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
-    })
-
     for region in REGIONS
       rackspace.region = region
       client = pkgcloud.loadbalancer.createClient(rackspace)
@@ -79,16 +73,20 @@ module.exports = (robot) ->
           msg.send err
           return false
         else
+          table = new Table({
+            head: ['Name', 'Protocol', 'Port', 'Public IP', 'Nodes']
+            , style: { head:[], border:[], 'padding-left': 1, 'padding-right': 1 }
+          })
           for lbs in loadbalancers
             table.push(
               ["#{lbs.name}",
               "#{lbs.protocol}",
               "#{lbs.port}",
-              "#{asIp(lbs.virtualIps[0].address)}",
+              "#{lbs.virtualIps[0].address}",
               "#{lbs.nodeCount}"]
             )
+          msg.send "#{QUOTE} #{table.toString()}"
       )
-    msg.send "#{QUOTE} #{table.toString()}"
 
   robot.respond /rack dns (.*)/i, (msg) ->
     domain = escape(msg.match[1])
@@ -122,6 +120,7 @@ module.exports = (robot) ->
             msg.send "#{QUOTE} #{table.toString()}"
         )
     )
+
 
 asIp = (ip) ->
   if ip == null or ip == ''
