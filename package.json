@@ -40,7 +40,8 @@
     "hubot-http-status": "0.2.0",
     "hubot-worldcup": "0.2.1",
     "hubot-plusplus": "1.0.0",
-    "hubot-twofactor": "0.1.0"
+    "hubot-twofactor": "0.1.0",
+    "hubot-rackspace": "0.2.1"
   },
   "engines": {
     "node": ">= 0.8.x",
