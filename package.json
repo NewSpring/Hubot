@@ -41,7 +41,7 @@
     "hubot-worldcup": "0.2.1",
     "hubot-plusplus": "1.0.0",
     "hubot-twofactor": ">=0.3.3",
-    "hubot-rackspace": "0.2.1"
+    "hubot-rackspace": "0.3.0"
   },
   "engines": {
     "node": ">= 0.8.x",
