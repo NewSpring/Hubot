@@ -41,12 +41,10 @@ module.exports = (robot) ->
       github.qualified_repo process.env.HUBOT_GITHUB_REPO || "NewSpring"
 
       github.handleErrors (response) ->
-        msg.send "Github Error: #{response.statusCode} #{response.error}"
+        msg.send "Github Error: #{response.error}"
         return false
 
-      github.get "#{url_api_base}/repos/NewSpring/NewSpring/branches", (branches) ->
-        names = _.pluck(branches, "name")
-        if _.contains(names, "#{branch}") is true
+      github.get "#{url_api_base}/repos/NewSpring/NewSpring/branches/#{branch}", (b) ->
           if env is "prod" or env is "production"
             unless branch is "master" or branch is "develop"
               msg.send "You can only deploy master to production."
@@ -65,9 +63,6 @@ module.exports = (robot) ->
           execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
           rightscale(token, auth, msg, request, execute)
           msg.reply "OK, deploying #{branch} on #{env}..."
-        else
-          msg.send "Check your spelling. That branch is not on Github."
-          return false
     else
       msg.reply "Sorry, You must have 'deploy' access to for me update the site."
 
