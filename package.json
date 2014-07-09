@@ -30,6 +30,7 @@
     "htmlparser": "1.7.6",
     "soupselect": "0.2.0",
     "redis": "0.7.2",
+    "mongodb": ">= 1.2.0",
     "oauth": "0.9.10",
     "cli-table": "0.2.0",
     "pkgcloud": "https://github.com/pkgcloud/pkgcloud/tarball/master",
