@@ -1,4 +1,4 @@
-["redis-brain.coffee",
+["mongo-brain.coffee",
   "dribbble.coffee",
   "facepalm.coffee",
   "gangnam.coffee",
@@ -14,7 +14,6 @@
   "thanks-obama.coffee",
   "tvshow.coffee",
   "wikipedia.coffee",
-  "wunderground.coffee",
   "xkcd.coffee",
   "giphy.coffee",
   "responders.coffee"]
