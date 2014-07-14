@@ -30,7 +30,6 @@
     "htmlparser": "1.7.6",
     "soupselect": "0.2.0",
     "redis": "0.7.2",
-    "mongodb": ">= 1.2.0",
     "oauth": "0.9.10",
     "cli-table": "0.2.0",
     "pkgcloud": "https://github.com/pkgcloud/pkgcloud/tarball/master",
@@ -40,7 +39,7 @@
     "hubot-chartbeat": "0.2.2",
     "hubot-http-status": "0.2.0",
     "hubot-worldcup": "0.2.1",
-    "hubot-plusplus": "1.0.0",
+    "hubot-plusplus": "https://github.com/ajacksified/hubot-plusplus/tarball/master",
     "hubot-twofactor": ">=0.3.3",
     "hubot-rackspace": "0.3.0"
   },

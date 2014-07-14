@@ -1,4 +1,4 @@
-["mongo-brain.coffee",
+["redis-brain.coffee",
   "dribbble.coffee",
   "facepalm.coffee",
   "gangnam.coffee",
