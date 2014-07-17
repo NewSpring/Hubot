@@ -1,7 +1,5 @@
 ["hubot-http-status",
   "hubot-chartbeat",
-  "hubot-plusplus",
-  "hubot-worldcup",
   "hubot-rackspace",
   "hubot-twofactor"
 ]
