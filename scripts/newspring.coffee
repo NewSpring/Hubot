@@ -9,10 +9,13 @@ Table = require "cli-table"
 
 module.exports = (robot) ->
   robot.respond /(newspring|ns) colors/i, (msg) ->
-    table = new Table({head: ['Color', 'Hex', 'RGB', 'CMYK'], style: { head:[], border:[], 'padding-left':1, 'padding-right':1 }})
-    table.push ( ["Primary","#6BAC43", "107,172,67", "25.49, 0, 41.18, 32.55" ] )
-    table.push ( ["Secondary","#518933","81,137,51,","21.96, 0, 33.73, 46.27" ] )
-    table.push ( [ "Tertiary","#3C6E26","60,110,38","19.61, 0, 28.24, 56.86" ] )
-    table.push ( [ "Black","#282828","40,40,40","0, 0, 0, 84.31" ] )
+    table = new Table({head: ['Green', 'Hex', 'RGB'], style: { head:[], border:[], 'padding-left':1, 'padding-right':1 }})
+    table.push ( ["Primary","#6BAC43", "107,172,67"] )
+    table.push ( ["Secondary","#1c683e","28/104/62"] )
+    table.push ( [ "Tertiary","#2a4930","60,110,38"] )
+    table = new Table({head: ['Black', 'Hex', 'RGB'], style: { head:[], border:[], 'padding-left':1, 'padding-right':1 }})
+    table.push ( [ "Primary","#303030","48,48,48"] )
+    table.push ( [ "Secondary","#858585","133,133,133"] )
+    table.push ( [ "Tertiary","#dddddd","221,221,221"] )
     msg.send "/quote " + table.toString()
 
