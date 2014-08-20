@@ -54,7 +54,6 @@ module.exports = (robot) ->
             env = "production"
             array = prod_array
           else if env is "beta"
-            branch = "develop"
             array = beta_array
           else if env is "stag" or env is "staging" or env is "dev"
             if branch is "master"
