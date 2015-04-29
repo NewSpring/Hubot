@@ -35,10 +35,16 @@ module.exports = (robot) ->
 
   robot.router.post '/hubot/status/set', (req, res) ->
     room = process.env.SPARK_STATUS_ROOM
-    console.log req.body.payload.status
-    # status = req.payload.status
+    status = req.body.payload.status
+    statusLight.callFunction('setStatus', status, (err, data) ->
+      if (err)
+        robot.send, room "Unable to set StatusLight!"
+      else
+        console.log data
+    )
 
-    # console.log status
+    res.writeHead 200, {'Content-Type': 'text/plain' }
+    res.end 'Thanks\n'
 
 
 
