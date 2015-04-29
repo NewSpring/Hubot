@@ -35,7 +35,7 @@ module.exports = (robot) ->
 
   robot.router.post '/hubot/status/set', (req, res) ->
     room = process.env.SPARK_STATUS_ROOM
-    console.log req.body
+    console.log req.body.payload.status
     # status = req.payload.status
 
     # console.log status
