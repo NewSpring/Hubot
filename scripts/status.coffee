@@ -19,7 +19,9 @@
 #
 #
 
-spark = require('spark').login({accessToken: process.env.SPARK_API_TOKEN})
+spark = require('spark')
+spark.login({accessToken: process.env.SPARK_API_TOKEN})
+
 statusLight = spark.getDevice(process.env.SPARK_DEVICE_ID, (err, device) ->
   console.log "Found StopLight"
 )
