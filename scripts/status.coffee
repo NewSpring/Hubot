@@ -38,7 +38,7 @@ module.exports = (robot) ->
     status = req.body.payload.status
     statusLight.callFunction('setStatus', status, (err, data) ->
       if (err)
-        robot.send, room "Unable to set StatusLight!"
+        robot.send room, "Unable to set StatusLight!"
       else
         console.log data
     )
