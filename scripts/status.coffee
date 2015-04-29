@@ -20,22 +20,16 @@
 #
 
 spark = require('spark').login({accessToken: process.env.SPARK_API_TOKEN})
-statusLight = spark.getDevice(
-  process.env.SPARK_DEVICE_ID
-  (err, device) ->
-    console.log "Found StopLight"
-  )
+statusLight = spark.getDevice(process.env.SPARK_DEVICE_ID, (err, device) ->
+  console.log "Found StopLight"
+)
 
 module.exports = (robot) ->
   robot.respond /status reset/i, (msg) ->
-    statusLight.callFunction(
-      'setStatus'
-      'success'
-      (err, data) ->
-        if (err)
-          console.log "Error setting status!"
-        else
-          console.log "Reset"
+    statusLight.callFunction('setStatus','success', (err, data) ->
+      if (err)
+        console.log "Error setting status!"
+    )
 
   robot.router.post 'hubot/status/set', (req, res) ->
     room = process.env.SPARK_STATUS_ROOM
