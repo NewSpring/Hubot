@@ -23,6 +23,7 @@ spark = require('spark')
 
 module.exports = (robot) ->
   robot.respond /status reset/i, (msg) ->
+    robot.brain.set 'failCount', 0
     spark.login({accessToken: process.env.SPARK_API_TOKEN}).then(
       console.log spark.devices
       spark.getDevice(process.env.SPARK_DEVICE_ID, (err, device) ->
