@@ -40,7 +40,7 @@ module.exports = (robot) ->
 # if status is building then set appropriate light
     switch status
       when 'running','queued','scheduled' then setStatus 'building'
-      when 'success','fixed' then failCount--
+      when 'success','fixed' then failCount-- unless failCount == 0
       when 'failed','infrastructure_fail','timedout' then failCount++
 
     if failCount == 0
