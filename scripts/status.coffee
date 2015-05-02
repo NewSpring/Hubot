@@ -36,15 +36,35 @@ module.exports = (robot) ->
   robot.router.post '/hubot/status/set', (req, res) ->
     room = process.env.SPARK_STATUS_ROOM
     status = req.body.payload.status
-    statusLight.callFunction('setStatus', status, (err, data) ->
-      if (err)
-        robot.send room, "Unable to set StatusLight!"
-      else
-        console.log data
-    )
+    failCount = robot.brain.get('failCount')
+    # if status is building then set appropriate light
+    if status == 'running' or status == 'queued' or status == 'scheduled'
+      setStatus('building')
+    else if status == 'success' or status = 'fixed'
+      failCount--
+    else status == 'failed' or status == 'infrastructure_fail' or status == 'timedout'
+      failCount++
+
+    if failCount == 0
+      setStatus('success')
+    if failCount > 0
+      setStatus('failed')
+
+    robot.brain.set('failCount'), failCount
 
     res.writeHead 200, {'Content-Type': 'text/plain' }
     res.end 'Thanks\n'
+
+setStatus = (status) ->
+  spark.login({accessToken: process.env.SPARK_API_TOKEN}).then(
+    console.log spark.devices
+    spark.getDevice(process.env.SPARK_DEVICE_ID, (err, device) ->
+      device.callFunction('setStatus', status, (err, data) ->
+        if (err)
+          console.error "Error setting status!"
+      )
+    )
+  )
 
 
 
