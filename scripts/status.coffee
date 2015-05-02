@@ -58,7 +58,6 @@ module.exports = (robot) ->
 
 setStatus = (status) ->
   spark.login({accessToken: process.env.SPARK_API_TOKEN}).then(
-    console.log spark.devices
     spark.getDevice(process.env.SPARK_DEVICE_ID, (err, device) ->
       device.callFunction('setStatus', status, (err, data) ->
         if (err)
