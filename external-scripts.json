@@ -1,5 +1,7 @@
 ["hubot-http-status",
   "hubot-chartbeat",
+  "hubot-twofactor",
   "hubot-rackspace",
-  "hubot-twofactor"
+  "hubot-circleci",
+  "hubot-github-webhook-listener"
 ]
