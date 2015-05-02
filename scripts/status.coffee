@@ -36,7 +36,9 @@ module.exports = (robot) ->
   robot.router.post '/hubot/status/set', (req, res) ->
     room = process.env.SPARK_STATUS_ROOM
     status = req.body.payload.status
+    console.log status
     failCount = robot.brain.get('failCount')
+    console.log "Current FailCount: " + failCount
 # if status is building then set appropriate light
     switch status
       when 'running','queued','scheduled' then setStatus 'building'
