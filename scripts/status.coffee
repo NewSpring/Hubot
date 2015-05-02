@@ -37,20 +37,18 @@ module.exports = (robot) ->
     room = process.env.SPARK_STATUS_ROOM
     status = req.body.payload.status
     failCount = robot.brain.get('failCount')
-    # if status is building then set appropriate light
-    if status == 'running' or status == 'queued' or status == 'scheduled'
-      setStatus('building')
-    else if status == 'success' or status = 'fixed'
-      failCount--
-    else status == 'failed' or status == 'infrastructure_fail' or status == 'timedout'
-      failCount++
+# if status is building then set appropriate light
+    switch status
+      when 'running','queued','scheduled' then setStatus 'building'
+      when 'success','fixed' then failCount--
+      when 'failed','infrastructure_fail','timedout' then failCount++
 
     if failCount == 0
       setStatus('success')
     if failCount > 0
       setStatus('failed')
 
-    robot.brain.set('failCount'), failCount
+    robot.brain.set 'failCount', failCount
 
     res.writeHead 200, {'Content-Type': 'text/plain' }
     res.end 'Thanks\n'
