@@ -30,7 +30,7 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.respond /rs deploy ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin msg.envelope.user
+    if robot.auth.isAdmin(msg.message.user) is true
       vars = msg.match[1].split(" ")
       env = vars[0]
       branch = vars[1] || "develop"
@@ -71,7 +71,7 @@ module.exports = (robot) ->
 
 
   robot.respond /rs reboot apache ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin msg.envelope.user
+    if robot.auth.isAdmin msg.message.user
       instance = msg.match[1]
       unless instance is ""
         msg.reply "Ok, I'll reboot apache for you."
@@ -86,7 +86,7 @@ module.exports = (robot) ->
       msg.reply "Sorry, You must have 'admin' access for me to reboot apache."
 
   robot.respond /rs rollback ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin msg.envelope.user
+    if robot.auth.isAdmin(msg.envelope.user)?
       instance = msg.match[1]
       unless instance is ""
         if instance == "prod" or instance == "production"
