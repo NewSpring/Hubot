@@ -3,5 +3,7 @@
   "hubot-twofactor",
   "hubot-rackspace",
   "hubot-circleci",
+  "hubot-redis-brain",
+  "hubot-auth",
   "hubot-github-webhook-listener"
 ]

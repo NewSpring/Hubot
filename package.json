@@ -43,6 +43,7 @@
     "hubot-rackspace": "0.3.0",
     "hubot-redis-brain": "0.0.2",
     "hubot-circleci": "0.8.1",
+    "hubot-auth": "1.2.0",
     "hubot-github-webhook-listener": "0.9.1",
     "hubot-github-identity": "0.9.1",
     "spark": "0.4.2"
