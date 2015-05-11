@@ -41,8 +41,11 @@ module.exports = (robot) ->
     failCount = robot.brain.get('failCount')
 # if status is building then set appropriate light
     switch status
+      #never gets set with the webhook currently
       when 'running','queued','scheduled' then setStatus 'building'
-      when 'success','fixed' then failCount-- unless failCount == 0
+      #this should be true when the previous build failed
+      when 'fixed' then failCount-- unless failCount == 0
+      #failure
       when 'failed','infrastructure_fail','timedout' then failCount++
 
     console.log "Current FailCount: " + failCount
