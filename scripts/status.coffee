@@ -39,12 +39,13 @@ module.exports = (robot) ->
     status = req.body.payload.status
     console.log status
     failCount = robot.brain.get('failCount')
-    console.log "Current FailCount: " + failCount
 # if status is building then set appropriate light
     switch status
       when 'running','queued','scheduled' then setStatus 'building'
       when 'success','fixed' then failCount-- unless failCount == 0
       when 'failed','infrastructure_fail','timedout' then failCount++
+
+    console.log "Current FailCount: " + failCount
 
     if failCount == 0
       setStatus('success')
