@@ -71,7 +71,7 @@ module.exports = (robot) ->
 
 
   robot.respond /rs reboot apache ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin msg.message.user
+    if robot.auth.isAdmin(msg.message.user) is true
       instance = msg.match[1]
       unless instance is ""
         msg.reply "Ok, I'll reboot apache for you."
@@ -86,7 +86,7 @@ module.exports = (robot) ->
       msg.reply "Sorry, You must have 'admin' access for me to reboot apache."
 
   robot.respond /rs rollback ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin(msg.envelope.user)?
+    if robot.auth.isAdmin(msg.message.user) is true
       instance = msg.match[1]
       unless instance is ""
         if instance == "prod" or instance == "production"

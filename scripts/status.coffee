@@ -48,7 +48,7 @@ module.exports = (robot) ->
 
     if failCount == 0
       setStatus('success')
-    if failCount > 0
+    else failCount > 0
       setStatus('failed')
 
     robot.brain.set 'failCount', failCount
