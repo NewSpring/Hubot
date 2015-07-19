@@ -14,7 +14,7 @@
 #   brilliantfantastic
 
 proofs = [
-  "https://lifegivingwater.files.wordpress.com/2013/01/hammertime.gif",
+  "https://s3.amazonaws.com/ns.backup/development/Proof_Hammer.png",
 ]
 
 module.exports = (robot) ->
