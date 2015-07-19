@@ -37,7 +37,7 @@
     "scoped-http-client": ">= 0.9.8",
     "async": "0.2.x",
     "hubot-chartbeat": "0.2.2",
-    "hubot-http-status": "https://github.com/chrisvfritz/hubot-http-status/tarball/patch-1",
+    "hubot-http-status": "0.2.1",
     "hubot-plusplus": "https://github.com/ajacksified/hubot-plusplus/tarball/master",
     "hubot-twofactor": ">=0.3.3",
     "hubot-rackspace": "0.3.0",

@@ -1,6 +1,5 @@
 ["hubot-http-status",
   "hubot-chartbeat",
-  "hubot-rackspace",
   "hubot-circleci",
   "hubot-redis-brain",
   "hubot-auth",
