@@ -33,7 +33,7 @@ module.exports = (robot) ->
     array
   
   
-  robot.respond /it\'s review time/i, (msg) ->
+  robot.respond /its review time/i, (msg) ->
     
     msg.reply(
       "
