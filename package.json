@@ -1,55 +1,57 @@
 {
-  "name":        "hosted-hubot",
-  "version":     "2.12.0",
-  "author":      "GitHub Inc.",
-  "keywords":    "github hubot campfire bot",
+  "name": "hosted-hubot",
+  "version": "2.12.0",
+  "author": "GitHub Inc.",
+  "keywords": "github hubot campfire bot",
   "description": "A simple helpful Robot for your Company",
-  "licenses":     [{
-    "type":       "MIT",
-    "url":        "http://github.com/github/hubot/raw/master/LICENSE"
-  }],
-
-  "repository" : {
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/github/hubot/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
     "type": "git",
-    "url":  "https://github.com/github/hubot.git"
+    "url": "https://github.com/github/hubot.git"
   },
-
   "dependencies": {
-    "hubot-hipchat": "https://github.com/delianides/hubot-hipchat/tarball/master",
-    "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
-    "hubot":         "2.12.0",
-    "underscore": "1.3.3",
-    "underscore.string": "2.1.1",
-	  "jsdom": 	">=0.2.13",
-	  "jquery": 	">=1.7.2",
-    "githubot": "0.5.0",
-	  "xml2js": "0.2.0",
-    "cheerio": "0.16.0",
-	  "request": "2.14.0",
-    "scribe-node": ">=0.0.24",
-    "htmlparser": "1.7.6",
-    "soupselect": "0.2.0",
-    "redis": "0.7.2",
-    "oauth": "0.9.10",
-    "cli-table": "0.3.1",
-    "pkgcloud": "https://github.com/pkgcloud/pkgcloud/tarball/master",
-    "moment": "2.4.0",
-    "scoped-http-client": ">= 0.9.8",
     "async": "0.2.x",
+    "cheerio": "0.16.0",
+    "cli-table": "0.3.1",
+    "crypto-js": "^3.1.5",
+    "githubot": "0.5.0",
+    "htmlparser": "1.7.6",
+    "hubot": "2.12.0",
+    "hubot-auth": "1.2.0",
     "hubot-chartbeat": "0.2.2",
+    "hubot-circleci": "0.8.1",
+    "hubot-github-identity": "0.9.1",
+    "hubot-github-webhook-listener": "0.9.1",
+    "hubot-hipchat": "https://github.com/delianides/hubot-hipchat/tarball/master",
     "hubot-http-status": "0.2.1",
     "hubot-plusplus": "https://github.com/ajacksified/hubot-plusplus/tarball/master",
-    "hubot-twofactor": ">=0.3.3",
     "hubot-rackspace": "0.3.0",
     "hubot-redis-brain": "0.0.2",
-    "hubot-circleci": "0.8.1",
-    "hubot-auth": "1.2.0",
-    "hubot-github-webhook-listener": "0.9.1",
-    "hubot-github-identity": "0.9.1",
-    "spark": "0.4.2"
+    "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
+    "hubot-twofactor": ">=0.3.3",
+    "jquery": ">=1.7.2",
+    "jsdom": ">=0.2.13",
+    "moment": "2.4.0",
+    "oauth": "0.9.10",
+    "pkgcloud": "https://github.com/pkgcloud/pkgcloud/tarball/master",
+    "redis": "0.7.2",
+    "request": "2.14.0",
+    "scoped-http-client": ">= 0.9.8",
+    "scribe-node": ">=0.0.24",
+    "soupselect": "0.2.0",
+    "spark": "0.4.2",
+    "underscore": "1.3.3",
+    "underscore.string": "2.1.1",
+    "xml2js": "0.2.0",
+    "node-ooyala-api-client": "https://github.com/ndcollins/node-ooyala-api-client/tarball/master"
   },
   "engines": {
     "node": ">= 0.8.x",
-    "npm":  ">=1.1.x"
+    "npm": ">=1.1.x"
   }
 }
