@@ -6,9 +6,9 @@
 # Commands:
 #   hubot rs deploy [env] [branch], Update Application Code (requires 'deploy' role)
 #   hubot rs reboot apache [instance], Reboots Apache Web Server on Array or Instances Specified. (requires 'deploy' role)
-#   hubot rs rollback [env], Required to specify an environment.
 #   hubot rightscale [endpoint], Runs a request against the api and outputs the JSON response.
 #
+
 url         = require 'url'
 querystring = require 'querystring'
 Table       = require 'cli-table'
@@ -21,6 +21,7 @@ token = process.env.RIGHTSCALE_API_TOKEN
 dev_array = process.env.RIGHTSCALE_DEV_ARRAY
 prod_array = process.env.RIGHTSCALE_PROD_ARRAY
 beta_array = process.env.RIGHTSCALE_BETA_ARRAY
+post_token = process.env.RIGHTSCALE_POST_TOKEN
 
 base = "https://us-4.rightscale.com/api/"
 
@@ -30,15 +31,17 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.router.post '/apollos/rightscale/deploy', (req, res) ->
-    #make this secure
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
-    request = "server_arrays/#{data.array}/multi_run_executable"
-    execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
-    rightscale(token, auth, robot.msg, request, execute)
-    robot.messageRoom data.room, "OK, deploying #{data.branch} on #{data.env}..."
-    res.send 'OK'
+    if data.token = post_token
+      request = "server_arrays/#{data.array}/multi_run_executable"
+      execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
+      rightscale(token, auth, request, execute, data.room)
+      res.send 'OK'
+    else
+      res.send 'Forbidden'
 
   robot.respond /rs deploy ?(.*)/i, (msg) ->
+    room = process.env.RIGHTSCALE_NOTIFY_ROOM
     if robot.auth.isAdmin(msg.message.user) is true
       vars = msg.match[1].split(" ")
       env = vars[0]
@@ -73,45 +76,45 @@ module.exports = (robot) ->
 
           request = "server_arrays/#{array}/multi_run_executable"
           execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
-          rightscale(token, auth, msg, request, execute)
+          rightscale(token, auth, request, execute, room)
           msg.reply "OK, deploying #{branch} on #{env}..."
     else
       msg.reply "Sorry, You must have 'admin' access to for me update the site."
 
-  robot.respond /rs rollback ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin(msg.message.user) is true
-      instance = msg.match[1]
-      unless instance is ""
-        if instance == "prod" or instance == "production"
-          msg.reply "Ok, Rolling back production array to previous release..."
-          request = "server_arrays/#{prod_array}/multi_run_executable"
-          execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
-          rightscale(token, auth, msg, request, execute)
-        else if instance == "stag" or instance == "staging" or instance == "dev"
-          msg.reply "Ok, Rolling back staging array to previous release..."
-          request = "server_arrays/#{dev_array}/multi_run_executable"
-          execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
-          rightscale(token, auth, msg, request, execute)
-        else
-          msg.reply "I'm not sure which environment I should rollback?"
-      else
-        msg.reply "Which environment should I rollback?"
-    else
-      msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
+  # robot.respond /rs rollback ?(.*)/i, (msg) ->
+  #   if robot.auth.isAdmin(msg.message.user) is true
+  #     instance = msg.match[1]
+  #     unless instance is ""
+  #       if instance == "prod" or instance == "production"
+  #         msg.reply "Ok, Rolling back production array to previous release..."
+  #         request = "server_arrays/#{prod_array}/multi_run_executable"
+  #         execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
+  #         rightscale(token, auth, msg, request, execute)
+  #       else if instance == "stag" or instance == "staging" or instance == "dev"
+  #         msg.reply "Ok, Rolling back staging array to previous release..."
+  #         request = "server_arrays/#{dev_array}/multi_run_executable"
+  #         execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
+  #         rightscale(token, auth, msg, request, execute)
+  #       else
+  #         msg.reply "I'm not sure which environment I should rollback?"
+  #     else
+  #       msg.reply "Which environment should I rollback?"
+  #   else
+  #     msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
 
-processResponse = (err, res, body, msg) ->
+processResponse = (err, res, body, room) ->
   switch res.statusCode
     when 202
-      msg.send "Rightscale has been instructed to deploy...please wait."
+      robot.messageRoom room, "Rightscale has been instructed to deploy...please wait."
     when 404
-      msg.send "There was an error! #{body}, #{err}"
+      robot.messageRoom room, "There was an error! #{body}, #{err}"
     when 401
-      msg.send "There was an authentication error!, #{err}"
+      robot.messageRoom room, "There was an authentication error!, #{err}"
     else
-      msg.send "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
+      robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
-rightscale = (token, auth, msg, request, execute = null, method = "post") ->
-  msg.robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
+rightscale = (token, auth, request, execute = null, room, method = "post") ->
+  robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
       unless res.statusCode is 200
@@ -121,19 +124,20 @@ rightscale = (token, auth, msg, request, execute = null, method = "post") ->
       access = response.access_token
 
       if method == "post"
-        msg.robot.http("#{base}#{request}.json")
+        robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .post(execute) (err, res, body) ->
-            processResponse(err, res, body, msg)
+            processResponse(err, res, body, room)
       else
-        msg.robot.http("#{base}#{request}.json")
+        robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .get() (err, res, body) ->
             unless res.statusCode is 200
-              processResponse(err, res, body, msg)
+              processResponse(err, res, body, room)
             else
               try
                 instances = JSON.parse(body)
                 parseInstances(instances, msg)
               catch error
-                msg.send "Uh oh, I have no idea what Rightscale just sent back!"
+                console.error error
+
