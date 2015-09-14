@@ -30,11 +30,8 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.router.post '/apollos/rightscale/deploy', (req, res) ->
-    room   = req.params.room
-    console.log req
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
-    secret = data.secret
-    robot.messageRoom room, "I have a secret: #{secret}"
+    robot.messageRoom data.room, "I have a secret: #{data.secret}"
     res.send 'OK'
 
   robot.respond /rs deploy ?(.*)/i, (msg) ->
