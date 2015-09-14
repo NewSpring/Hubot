@@ -36,7 +36,7 @@ module.exports = (robot) ->
       request = "server_arrays/#{data.array}/multi_run_executable"
       execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
       rightscale(token, auth, request, execute, data.room, robot)
-      res.send 'OK'
+      res.send "#{data.branch} #{data.room} #{data.array}"
     else
       res.send 'Forbidden'
 
