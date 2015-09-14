@@ -102,7 +102,7 @@ module.exports = (robot) ->
   #   else
   #     msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
 
-processResponse = (err, res, body, room) ->
+processResponse = (err, res, body, room, robot) ->
   switch res.statusCode
     when 202
       robot.messageRoom room, "Rightscale has been instructed to deploy...please wait."
