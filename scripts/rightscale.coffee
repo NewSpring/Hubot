@@ -29,6 +29,13 @@ module.exports = (robot) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 
+  robot.router.post '/apollos/rightscale/deploy', (req, res) ->
+    room   = req.params.room
+    data   = if req.body.payload? then JSON.parse req.body.payload else req.body
+    secret = data.secret
+    robot.messageRoom room, "I have a secret: #{secret}"
+    res.send 'OK'
+
   robot.respond /rs deploy ?(.*)/i, (msg) ->
     if robot.auth.isAdmin(msg.message.user) is true
       vars = msg.match[1].split(" ")
@@ -69,22 +76,6 @@ module.exports = (robot) ->
     else
       msg.reply "Sorry, You must have 'admin' access to for me update the site."
 
-
-  robot.respond /rs reboot apache ?(.*)/i, (msg) ->
-    if robot.auth.isAdmin(msg.message.user) is true
-      instance = msg.match[1]
-      unless instance is ""
-        msg.reply "Ok, I'll reboot apache for you."
-        request = "server_arrays/#{array}/multi_run_executable"
-        execute = querystring.stringify({'recipe_name': 'expressionengine::do_reboot_apache'})
-        #rightscale(token, auth, msg, request, execute)
-      else
-        msg.reply "Sorry, I don't know how to reboot individual servers yet."
-        #execute = querystring.stringify({'recipe_name': 'main::do_reboot_apache'})
-        #rightscale(token, auth, msg, request, execute)
-    else
-      msg.reply "Sorry, You must have 'admin' access for me to reboot apache."
-
   robot.respond /rs rollback ?(.*)/i, (msg) ->
     if robot.auth.isAdmin(msg.message.user) is true
       instance = msg.match[1]
@@ -105,7 +96,6 @@ module.exports = (robot) ->
         msg.reply "Which environment should I rollback?"
     else
       msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
-
 
 processResponse = (err, res, body, msg) ->
   switch res.statusCode
