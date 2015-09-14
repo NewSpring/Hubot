@@ -76,7 +76,7 @@ module.exports = (robot) ->
 
           request = "server_arrays/#{array}/multi_run_executable"
           execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
-          rightscale(token, auth, request, execute, room)
+          rightscale(token, auth, request, execute, room, robot)
           msg.reply "OK, deploying #{branch} on #{env}..."
     else
       msg.reply "Sorry, You must have 'admin' access to for me update the site."
