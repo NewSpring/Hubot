@@ -30,8 +30,12 @@ module.exports = (robot) ->
     res.end "ok"
 
   robot.router.post '/apollos/rightscale/deploy', (req, res) ->
+    #make this secure
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
-    robot.messageRoom data.room, "I have a secret: #{data.secret}"
+    request = "server_arrays/#{data.array}/multi_run_executable"
+    execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
+    rightscale(token, auth, msg, request, execute)
+    robot.messageRoom data.room, "OK, deploying #{data.branch} on #{data.env}..."
     res.send 'OK'
 
   robot.respond /rs deploy ?(.*)/i, (msg) ->
