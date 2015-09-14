@@ -35,7 +35,7 @@ module.exports = (robot) ->
     if data.token = post_token
       request = "server_arrays/#{data.array}/multi_run_executable"
       execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
-      rightscale(token, auth, request, execute, data.room)
+      rightscale(token, auth, request, execute, data.room, robot)
       res.send 'OK'
     else
       res.send 'Forbidden'
@@ -113,7 +113,7 @@ processResponse = (err, res, body, room) ->
     else
       robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
-rightscale = (token, auth, request, execute = null, room, method = "post") ->
+rightscale = (token, auth, request, execute = null, room, robot, method = "post") ->
   robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
@@ -127,13 +127,13 @@ rightscale = (token, auth, request, execute = null, room, method = "post") ->
         robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .post(execute) (err, res, body) ->
-            processResponse(err, res, body, room)
+            processResponse(err, res, body, room, robot)
       else
         robot.http("#{base}#{request}.json")
           .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
           .get() (err, res, body) ->
             unless res.statusCode is 200
-              processResponse(err, res, body, room)
+              processResponse(err, res, body, room, robot)
             else
               try
                 instances = JSON.parse(body)
