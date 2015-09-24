@@ -36,9 +36,7 @@ module.exports = (robot) ->
   robot.respond /its review time/i, (msg) ->
     
     msg.reply(
-      "
-      @here, for review today: #{shuffle(team).join(' ')},
-      and then #{shuffle(directors).join(' and ')}
-      if they have anything they want to share
-      "
+      "@here, for review today: #{shuffle(team).join(' ')}, " +
+      "and then #{shuffle(directors).join(' and ')}" +
+      " if they have anything they want to share"
     )
