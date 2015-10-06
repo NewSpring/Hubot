@@ -14,7 +14,7 @@ options =
 
 module.exports = (robot) ->
 
-  robot.respond /(lookup f1 account)(( |)([a-zA-Z]+))?/gmi, (msg) ->
+  robot.respond /(lookup fund)(( |)([a-zA-Z]+))?/gmi, (msg) ->
       name = msg.match[4]
 
       funds = [];
