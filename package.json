@@ -19,6 +19,7 @@
     "cheerio": "0.16.0",
     "cli-table": "0.3.1",
     "crypto-js": "^3.1.5",
+    "fuzzysearch-js": "^0.1.1",
     "githubot": "0.5.0",
     "htmlparser": "1.7.6",
     "hubot": "2.16.0",
