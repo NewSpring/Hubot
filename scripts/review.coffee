@@ -31,10 +31,10 @@ module.exports = (robot) ->
       array[currentIndex] = array[randomIndex]
       array[randomIndex] = temporaryValue
     array
-  
-  
+
+
   robot.respond /its review time/i, (msg) ->
-    
+
     msg.reply(
       "@here, for review today: #{shuffle(team).join(' ')}, " +
       "and then #{shuffle(directors).join(' and ')}" +

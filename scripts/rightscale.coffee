@@ -1,7 +1,7 @@
 # Description:
 #   Rightscale integrates with the Rightscale API v1.5. Currently it only pulls information,
 #   but eventually I would like it to manage instances, arrays or deployments all from hubot.
-#   Can also accept a POST request to the hubot instance at /apollos/rightscale
+#   Can also accept a POST request to the hubot instance at /rightscale
 #
 # Commands:
 #   hubot rs deploy [env] [branch], Update Application Code (requires 'deploy' role)
@@ -26,11 +26,11 @@ post_token = process.env.RIGHTSCALE_POST_TOKEN
 base = "https://us-4.rightscale.com/api/"
 
 module.exports = (robot) ->
-  robot.router.post "/apollos/rightscale", (req, res) ->
+  robot.router.post "/rightscale", (req, res) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 
-  robot.router.post '/apollos/rightscale/deploy', (req, res) ->
+  robot.router.post '/rightscale/deploy', (req, res) ->
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
     if data.token = post_token
       request = "server_arrays/#{data.array}/multi_run_executable"
