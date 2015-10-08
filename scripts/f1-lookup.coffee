@@ -14,7 +14,7 @@ options =
 
 module.exports = (robot) ->
 
-  robot.hear /(lookup fund)(( |)([a-zA-Z]+))?/gmi, (msg) ->
+  robot.hear /(lookup fund)(( |)([a-zA-Z\d\s\w\W]+))?/gmi, (msg) ->
       name = msg.match[0].replace("hubot: lookup fund ", "");
 
       funds = [];
@@ -30,6 +30,7 @@ module.exports = (robot) ->
           fuzzySearch.addModule(indexOfFS({"minTermLength": 3, "maxIterations": 500, "factor": 3}))
           fuzzySearch.addModule(wordCountFS({"maxWordTolerance": 3, "factor": 1}))
 
+          console.log(name, funds);
           result = fuzzySearch.search(name)
           messageBack = []
           if result?.length
