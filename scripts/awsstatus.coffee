@@ -21,7 +21,7 @@
 # Will only post each message once and will never post messages that are older than 1 hour.
 
 fs = require('fs')
-feedparser = require('feedparser')
+feedparser = require('ortoo-feedparser')
 
 room = process.env.HUBOT_OPS_ROOM
 
