@@ -1,1 +1,1 @@
-web: bin/hubot -a hipchat -n Apollos
+web: bin/hubot -a hipchat

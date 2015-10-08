@@ -2,7 +2,7 @@
   "hubot-chartbeat",
   "hubot-circleci",
   "hubot-redis-brain",
-  "hubot-rackspace",
+  "hubot-aws",
   "hubot-twofactor",
   "hubot-auth",
   "hubot-github-webhook-listener"
