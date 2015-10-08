@@ -14,7 +14,7 @@ options =
 
 module.exports = (robot) ->
 
-  robot.respond /(lookup fund)(( |)([a-zA-Z]+))?/gmi, (msg) ->
+  robot.hear /(lookup fund)(( |)([a-zA-Z]+))?/gmi, (msg) ->
       name = msg.match[0].replace("hubot: lookup fund ", "");
 
       funds = [];
@@ -32,12 +32,12 @@ module.exports = (robot) ->
 
           result = fuzzySearch.search(name)
           messageBack = []
-          if result.length
+          if result?.length
             messageBack.push "Here are the top results funds I found..."
 
-            for fundScore in result.length
+            for fundScore in result
             	messageBack.push fundScore.value
-              
+
           else
             messageBack.push "I'm sorry, I couldn't find any funds like that..."
 
