@@ -33,11 +33,11 @@ module.exports = (robot) ->
           result = fuzzySearch.search(name)
           messageBack = []
           if result.length
-            messageBack.reply(
             messageBack.push "Here are the top results funds I found..."
 
             for fundScore in result.length
-              messageBack.push fundScore.value
+            	messageBack.push fundScore.value
+              
           else
             messageBack.push "I'm sorry, I couldn't find any funds like that..."
 
