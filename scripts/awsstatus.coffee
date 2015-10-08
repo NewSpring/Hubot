@@ -44,7 +44,7 @@ get_callback = (robot, user) ->
 		return parser_callback
 
 checkStatus = (robot) ->
-		user = robot.userForId 'Hubot'
+		user = robot.brain.userForId 'Hubot'
 		user.room = room
 		out = feedparser.parseUrl("http://status.aws.amazon.com/rss/all.rss", get_callback(robot, user))
 
