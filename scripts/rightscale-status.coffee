@@ -42,7 +42,7 @@ get_callback = (robot, user) ->
 		return parser_callback
 
 checkStatus = (robot) ->
-		user = robot.userForId 'Hubot'
+		user = robot.brain.userForId 'Hubot'
 		user.room = room
 		out = feedparser.parseUrl("https://us-4.rightscale.com/acct/69788/user_notifications/feed.atom?feed_token=5fd9ba6c7fa9111576b11bacec823fac78ddb3cf", get_callback(robot, user))
 
