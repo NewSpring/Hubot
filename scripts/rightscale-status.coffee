@@ -34,7 +34,7 @@ get_callback = (robot, user) ->
 				else
 						now = (new Date()).getTime()
 						for article in articles
-								pubDate = Date.parse(article['pubdate'])
+								pubDate = Date.parse(article['updated'])
 								if (pubDate - last_check_time) >= 0 and (pubDate - oldest_date_to_post) >= 0
 										message = "RightScale - #{article.title}"
 										robot.send user, message
