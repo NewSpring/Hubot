@@ -1,3 +1,17 @@
+# Description:
+#   Looks for a fund ID against a search criteia in F1
+#
+# Configuration:
+#   F1APIKEY - Fellowshipone API key
+#
+# Commands:
+#   None
+#
+# Authors:
+#   jbaxleyiii
+#
+
+
 request = require "request"
 auth = "Basic #{process.env.F1APIKEY}"
 
@@ -13,11 +27,10 @@ options =
     "Authorization": auth
 
 module.exports = (robot) ->
+  robot.respond /lookup fund ?(.*)/i, (msg) ->
+      name = msg.match[1]
 
-  robot.hear /(lookup fund)(( |)([a-zA-Z\d\s\w\W]+))?/gmi, (msg) ->
-      name = msg.match[0].replace("hubot: lookup fund ", "");
-
-      funds = [];
+      funds = []
       callback = (error, response, body) ->
         if not error and response.statusCode is 200
           info = JSON.parse(body)
@@ -41,7 +54,5 @@ module.exports = (robot) ->
 
           else
             messageBack.push "I'm sorry, I couldn't find any funds like that..."
-
           msg.reply(messageBack.join("\n"))
-
       request(options, callback)
