@@ -1,6 +1,6 @@
 # Hubot
 
-This is a version of GitHub's bot, hubot. He's pretty cool. We run him on Hipchat. This version is designed to be deployed on [Heroku][heroku].
+This is a version of GitHub's bot, Hubot. He's pretty cool. We run him on Hipchat. This version is designed to be deployed on [Heroku][heroku].
 [heroku]: http://www.heroku.com
 ## Redis
 
