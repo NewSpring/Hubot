@@ -43,7 +43,6 @@ module.exports = (robot) ->
           fuzzySearch.addModule(indexOfFS({"minTermLength": 3, "maxIterations": 500, "factor": 3}))
           fuzzySearch.addModule(wordCountFS({"maxWordTolerance": 3, "factor": 1}))
 
-          console.log(name, funds);
           result = fuzzySearch.search(name)
           messageBack = []
           if result?.length
