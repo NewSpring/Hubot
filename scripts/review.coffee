@@ -1,4 +1,15 @@
-
+# Description:
+#   Random output of team for sprint review
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot its review time
+#
+# Authors:
+#   jbaxleyiii
+#
 
 module.exports = (robot) ->
 
@@ -31,7 +42,6 @@ module.exports = (robot) ->
       array[currentIndex] = array[randomIndex]
       array[randomIndex] = temporaryValue
     array
-
 
   robot.respond /its review time/i, (msg) ->
 

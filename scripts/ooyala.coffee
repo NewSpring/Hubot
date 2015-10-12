@@ -1,14 +1,17 @@
 # Description:
-#   Rightscale integrates with the Rightscale API v1.5. Currently it only pulls information,
-#   but eventually I would like it to manage instances, arrays or deployments all from hubot.
-#   Can also accept a POST request to the hubot instance at /apollos/rightscale
+#   Returns download link from Ooyala Video Platform API
+#
+# Configuration:
+#   OOYALA_API_KEY
+#   OOYALA_API_SECRET
 #
 # Commands:
-#   hubot rs deploy [env] [branch], Update Application Code (requires 'deploy' role)
-#   hubot rs reboot apache [instance], Reboots Apache Web Server on Array or Instances Specified. (requires 'deploy' role)
-#   hubot rs rollback [env], Required to specify an environment.
-#   hubot rightscale [endpoint], Runs a request against the api and outputs the JSON response.
+#   hubot ooyala download [content id]
 #
+# Note:
+#   This script will work for most adapters exept hipchat because of this: http://cl.ly/dVZn
+#
+
 url         = require 'url'
 querystring = require 'querystring'
 util        = require('util')
