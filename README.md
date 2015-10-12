@@ -30,7 +30,7 @@ module.exports = (robot) ->
 There are functions for GET, POST, PUT and DELETE, which all take a route and
 callback function that accepts a request and a response.
 
-### Redis
+## Redis
 
 If you are going to use the `redis-brain.coffee` script from `hubot-scripts`
 you will need to add the Redis to Go addon on Heroku which requires a verified
@@ -45,7 +45,7 @@ about redis at all.
 
 [redistogo]: https://redistogo.com/
 
-### Testing Hubot Locally
+## Testing Hubot Locally
 
 You can test your hubot by running the following.
 
@@ -71,82 +71,6 @@ Then you can interact with hubot by typing `hubot help`.
 Take a look at the scripts in the `./scripts` folder for examples.
 Delete any scripts you think are silly.  Add whatever functionality you
 want hubot to have.
-
-## Adapters
-
-Adapters are the interface to the service you want your hubot to run on. This
-can be something like Campfire or IRC. There are a number of third party
-adapters that the community have contributed. Check the
-[hubot wiki][hubot-wiki] for the available ones.
-
-If you would like to run a non-Campfire or shell adapter you will need to add
-the adapter package as a dependency to the `package.json` file in the
-`dependencies` section.
-
-Once you've added the dependency and run `npm install` to install it you can
-then run hubot with the adapter.
-
-    % bin/hubot -a <adapter>
-
-Where `<adapter>` is the name of your adapter without the `hubot-` prefix.
-
-[hubot-wiki]: https://github.com/github/hubot/wiki
-
-## hubot-scripts
-
-There will inevitably be functionality that everyone will want. Instead
-of adding it to hubot itself, you can submit pull requests to
-[hubot-scripts][hubot-scripts].
-
-To enable scripts from the hubot-scripts package, add the script name with
-extension as a double quoted string to the `hubot-scripts.json` file in this
-repo.
-
-[hubot-scripts]: https://github.com/github/hubot-scripts
-
-## external-scripts
-
-Tired of waiting for your script to be merged into `hubot-scripts`? Want to
-maintain the repository and package yourself? Then this added functionality
-maybe for you!
-
-Hubot is now able to load scripts from third-party `npm` packages! To enable
-this functionality you can follow the following steps.
-
-1. Add the packages as dependencies into your `package.json`
-2. `npm install` to make sure those packages are installed
-
-To enable third-party scripts that you've added you will need to add the package
-name as a double quoted string to the `external-scripts.json` file in this repo.
-
-## Deployment
-
-    % heroku create --stack cedar
-    % git push heroku master
-    % heroku ps:scale app=1
-
-If your Heroku account has been verified you can run the following to enable
-and add the Redis to Go addon to your app.
-
-    % heroku addons:add redistogo:nano
-
-If you run into any problems, checkout Heroku's [docs][heroku-node-docs].
-
-You'll need to edit the `Procfile` to set the name of your hubot.
-
-More detailed documentation can be found on the
-[deploying hubot onto Heroku][deploy-heroku] wiki page.
-
-### Deploying to UNIX or Windows
-
-If you would like to deploy to either a UNIX operating system or Windows.
-Please check out the [deploying hubot onto UNIX][deploy-unix] and
-[deploying hubot onto Windows][deploy-windows] wiki pages.
-
-[heroku-node-docs]: http://devcenter.heroku.com/articles/node-js
-[deploy-heroku]: https://github.com/github/hubot/wiki/Deploying-Hubot-onto-Heroku
-[deploy-unix]: https://github.com/github/hubot/wiki/Deploying-Hubot-onto-UNIX
-[deploy-windows]: https://github.com/github/hubot/wiki/Deploying-Hubot-onto-Windows
 
 ## HipChat Variables
 
