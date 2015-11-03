@@ -18,5 +18,5 @@ brons = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /goodmorning \@bron\b/i, (msg) ->
+  robot.hear /morning \@bron/i, (msg) ->
     msg.send msg.random brons
