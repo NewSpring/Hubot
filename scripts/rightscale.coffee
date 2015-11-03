@@ -56,7 +56,7 @@ module.exports = (robot) ->
 
       github.get "#{url_api_base}/repos/NewSpring/NewSpring/branches/#{branch}", (b) ->
           if env is "prod" or env is "production"
-            unless branch is "master" or branch is "develop"
+            unless branch is "master" or branch is "alpha"
               msg.send "You can only deploy master to production."
               return false
             branch = "master"
@@ -66,13 +66,13 @@ module.exports = (robot) ->
             array = beta_array
           else if env is "stag" or env is "staging" or env is "dev"
             if branch is "master"
-              msg.reply "You cannot deploy master to the staging array. Choose a different branch or leave blank to deploy the develop branch."
+              msg.reply "You cannot deploy master to the staging array. Choose a different branch or leave blank to deploy the alpha branch."
               return false
             array = dev_array
-            env = "staging"
+            env = "alpha"
 
           request = "server_arrays/#{array}/multi_run_executable"
-          execute = querystring.stringify({"recipe_name": "expressionengine::update", "inputs[][name]":"ee/update_revision", "inputs[][value]":"#{branch}"})
+          execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{branch}"})
           rightscale(token, auth, request, execute, room, robot)
           msg.reply "OK, deploying #{branch} on #{env}..."
     else
