@@ -6,12 +6,15 @@
 # Commands:
 #   hubot rs deploy [env] [branch], Update Application Code (requires 'deploy' role)
 #
+# Hooks:
+#   /rightscale/deploy - initiate a deploy
+#   /rightscale/report - after a deploy finished
+#
 
 url         = require 'url'
 querystring = require 'querystring'
 util        = require('util')
 _           = require("underscore")
-
 
 auth = process.env.RIGHTSCALE_API_ENDPOINT
 token = process.env.RIGHTSCALE_API_TOKEN
@@ -23,7 +26,7 @@ room = process.env.HUBOT_OPS_ROOM
 base = "https://us-4.rightscale.com/api/"
 
 module.exports = (robot) ->
-  robot.router.post "/rightscale", (req, res) ->
+  robot.router.post "/rightscale/report", (req, res) ->
     robot.messageRoom req.body.room, req.body.body
     res.end "ok"
 

@@ -26,7 +26,7 @@
     "hubot-redis-brain": "0.0.2",
     "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
     "hubot-slack": "^3.4.2",
-    "hubot-twofactor": ">=0.3.3",
+    "hubot-twofactor": ">=0.3.6",
     "node-ooyala-api-client": "https://github.com/ndcollins/node-ooyala-api-client/tarball/master",
     "ortoo-feedparser": "0.11.0",
     "request": "2.14.0",
