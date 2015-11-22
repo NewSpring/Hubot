@@ -29,7 +29,7 @@
     "hubot-slack": "^3.4.2",
     "hubot-twofactor": ">=0.3.6",
     "node-ooyala-api-client": "https://github.com/ndcollins/node-ooyala-api-client/tarball/master",
-    "hubot-jira-lookup": "https://github.com/jivesoftware/hubot-jira-lookup/tarball/master",
+    "hubot-jira-lookup": "git://github.com/jivesoftware/hubot-jira-lookup.git",
     "ortoo-feedparser": "0.11.0",
     "request": "2.14.0",
     "spark": "0.4.2",
