@@ -3,4 +3,6 @@
   "geocodeme.coffee",
   "xkcd.coffee",
   "giphy.coffee",
-  "responders.coffee"]
+  "responders.coffee",
+  "jira.coffee"
+]
