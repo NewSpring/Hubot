@@ -23,6 +23,7 @@
     "hubot-github-identity": "0.10.0",
     "hubot-github-webhook-listener": "0.9.1",
     "hubot-http-status": "0.2.1",
+    "hubot-plusplus": "^1.2.0",
     "hubot-redis-brain": "0.0.2",
     "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
     "hubot-slack": "^3.4.2",

@@ -2,6 +2,7 @@
   "hubot-chartbeat",
   "hubot-circleci",
   "hubot-redis-brain",
+  "hubot-plusplus",
   "hubot-aws",
   "hubot-twofactor",
   "hubot-auth",
