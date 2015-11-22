@@ -18,9 +18,9 @@ module.exports = (robot) ->
     '@drew'
     '@david'
     '@brian'
-    '@ed'
+    '@edolyne'
     '@sam'
-    '@pinky'
+    '@johnthepink'
   ]
 
   directors = [
