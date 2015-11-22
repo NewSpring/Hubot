@@ -6,5 +6,6 @@
   "hubot-aws",
   "hubot-twofactor",
   "hubot-auth",
-  "hubot-github-webhook-listener"
+  "hubot-github-webhook-listener",
+  "hubot-jira-lookup"
 ]
