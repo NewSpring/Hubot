@@ -100,12 +100,11 @@ module.exports = (robot) ->
         robot.emit 'slack.attachment',
           fallback: fallback
           channel: room
-          message: "Starting Deployment!"
           icon_url: "http://ns.ops.s3.amazonaws.com/images/rightscale.png"
           username: "Rightscale"
           content:
             color: "warning"
-            title: "Rightscale"
+            pretext: "Rightscale has been instructed to deploy!"
             fields: [
               {
                 title: "Environment"
@@ -193,7 +192,7 @@ processResponse = (err, res, body, room, robot) ->
       robot.messageRoom room, "There was an error! #{body}, #{err}"
     when 401
       robot.messageRoom room, "There was an authentication error!, #{err}"
-    else
+    when 500
       robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
 rightscale = (token, auth, request, execute = null, room, robot, method = "post") ->
