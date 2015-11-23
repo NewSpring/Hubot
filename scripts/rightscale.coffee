@@ -44,13 +44,33 @@ module.exports = (robot) ->
           text: "Deploy Succeeded!"
           fields: [
             {
-              title: "Hostname"
-              value: data.hostname
-              short: false
+              title: "Instance ID"
+              value: data.instance_id
+              short: true
+            }
+            {
+              title: "Local Hostname"
+              value: data.local_hostname
+              short: true
+            }
+            {
+              title: "Local IP Address"
+              value: data.local_ip
+              short: true
+            }
+            {
+              title: "Public Hostname"
+              value: data.public_hostname
+              short: true
             }
             {
               title: "IP Address"
-              value: data.ip
+              value: data.public_ip
+              short: true
+            }
+            {
+              title: "Availability Zone"
+              value: data.zone
               short: true
             }
             {
@@ -65,11 +85,38 @@ module.exports = (robot) ->
 
   robot.router.post '/rightscale/deploy', (req, res) ->
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
+    room   = data.room
     if data.token = post_token
       request = "server_arrays/#{data.array}/multi_run_executable"
       execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
+      fallback = "Starting deployment of #{data.branch} to #{data.env}"
+
+      if process.env.HUBOT_SLACK_INCOMING_WEBHOOK?
+        robot.emit 'slack.attachment',
+          fallback: fallback
+          channel: room
+          message: "Starting Deployment!"
+          icon_url: "http://ns.ops.s3.amazonaws.com/images/rightscale.png"
+          username: "Rightscale"
+          content:
+            color: "warning"
+            title: "Rightscale"
+            fields: [
+              {
+                title: "Environment"
+                value: data.env
+                short: true
+              }
+              {
+                title: "Branch"
+                value: data.branch
+                short: true
+              }
+            ]
+      else
+        robot.messageRoom room, fallback
       rightscale(token, auth, request, execute, data.room, robot)
-      res.end "#{data.branch} #{data.room} #{data.array}"
+      res.end "OK"
     else
       res.end 'Forbidden'
 
