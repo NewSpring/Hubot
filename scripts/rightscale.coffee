@@ -27,8 +27,41 @@ base = "https://us-4.rightscale.com/api/"
 
 module.exports = (robot) ->
   robot.router.post "/rightscale/report", (req, res) ->
-    robot.messageRoom req.body.room, req.body.body
-    res.end "ok"
+    data     = if req.body.payload? then JSON.parse req.body.payload else req.body
+    room     = data.room
+    fallback = "Finished deploying #{data.revision} to #{data.hostname}."
+
+    if process.env.HUBOT_SLACK_INCOMING_WEBHOOK?
+      robot.emit 'slack.attachment',
+        fallback: fallback
+        channel: room
+        message: "Updated ExpressionEngine on #{data.hostname}"
+        icon_url: "http://ns.ops.s3.amazonaws.com/images/rightscale.png"
+        username: "Rightscale"
+        content:
+          color: "good"
+          title: "Rightscale"
+          text: "Deploy Succeeded!"
+          fields: [
+            {
+              title: "Hostname"
+              value: data.hostname
+              short: false
+            }
+            {
+              title: "IP Address"
+              value: data.ip
+              short: true
+            }
+            {
+              title: "Revision"
+              value: data.revision
+              short: true
+            }
+          ]
+    else
+      robot.messageRoom room, fallback
+    res.end 'OK'
 
   robot.router.post '/rightscale/deploy', (req, res) ->
     data   = if req.body.payload? then JSON.parse req.body.payload else req.body
@@ -36,9 +69,9 @@ module.exports = (robot) ->
       request = "server_arrays/#{data.array}/multi_run_executable"
       execute = querystring.stringify({"recipe_name": "noah::do_deploy_newspring_cc", "inputs[][name]":"noah/revision", "inputs[][value]":"#{data.branch}"})
       rightscale(token, auth, request, execute, data.room, robot)
-      res.send "#{data.branch} #{data.room} #{data.array}"
+      res.end "#{data.branch} #{data.room} #{data.array}"
     else
-      res.send 'Forbidden'
+      res.end 'Forbidden'
 
   robot.respond /rs deploy ?(.*)/i, (msg) ->
     room = process.env.RIGHTSCALE_NOTIFY_ROOM
