@@ -49,6 +49,11 @@ module.exports = (robot) ->
               short: true
             }
             {
+              title: "Instance Type"
+              value: data.type
+              short: true
+            }
+            {
               title: "Local Hostname"
               value: data.local_hostname
               short: true
