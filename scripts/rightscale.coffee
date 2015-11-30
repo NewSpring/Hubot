@@ -29,61 +29,74 @@ module.exports = (robot) ->
   robot.router.post "/rightscale/report", (req, res) ->
     data     = if req.body.payload? then JSON.parse req.body.payload else req.body
     room     = data.room
-    fallback = "Finished deploying #{data.revision} to #{data.hostname}."
+    fallback = data.fallback
+
+    fields = [
+      {
+        title: "Instance ID"
+        value: data.instance_id
+        short: true
+      }
+      {
+        title: "IP Address"
+        value: data.public_ip
+        short: true
+      }
+    ]
+
+    if data.short == true
+      long = [
+        {
+          title: "Instance Type"
+          value: data.type
+          short: true
+        }
+        {
+          title: "Local Hostname"
+          value: data.local_hostname
+          short: true
+        }
+        {
+          title: "Local IP Address"
+          value: data.local_ip
+          short: true
+        }
+        {
+          title: "Public Hostname"
+          value: data.public_hostname
+          short: true
+        }
+        {
+          title: "Availability Zone"
+          value: data.zone
+          short: true
+        }
+      ]
+      fields = fields.concat(long)
+
+    if data.revison?
+      deployment = [
+        {
+          title: "Revision"
+          value: data.revision
+          short: true
+        }
+      ]
+      fields = fields.concat(deployment)
+
+    console.log "hello"
 
     if process.env.HUBOT_SLACK_INCOMING_WEBHOOK?
       robot.emit 'slack.attachment',
         fallback: fallback
         channel: room
-        message: "Updated ExpressionEngine on #{data.hostname}"
         icon_url: "http://ns.ops.s3.amazonaws.com/images/rightscale.png"
         username: "Rightscale"
         content:
           color: "good"
           title: "Rightscale"
-          text: "Deploy Succeeded!"
-          fields: [
-            {
-              title: "Instance ID"
-              value: data.instance_id
-              short: true
-            }
-            {
-              title: "Instance Type"
-              value: data.type
-              short: true
-            }
-            {
-              title: "Local Hostname"
-              value: data.local_hostname
-              short: true
-            }
-            {
-              title: "Local IP Address"
-              value: data.local_ip
-              short: true
-            }
-            {
-              title: "Public Hostname"
-              value: data.public_hostname
-              short: true
-            }
-            {
-              title: "IP Address"
-              value: data.public_ip
-              short: true
-            }
-            {
-              title: "Availability Zone"
-              value: data.zone
-              short: true
-            }
-            {
-              title: "Revision"
-              value: data.revision
-              short: true
-            }
-          ]
+          text: data.text
+          fields: fields
     else
       robot.messageRoom room, fallback
     res.end 'OK'
@@ -165,26 +178,38 @@ module.exports = (robot) ->
     else
       msg.reply "Sorry, You must have 'admin' access to for me update the site."
 
-  # robot.respond /rs rollback ?(.*)/i, (msg) ->
-  #   if robot.auth.isAdmin(msg.message.user) is true
-  #     instance = msg.match[1]
-  #     unless instance is ""
-  #       if instance == "prod" or instance == "production"
-  #         msg.reply "Ok, Rolling back production array to previous release..."
-  #         request = "server_arrays/#{prod_array}/multi_run_executable"
-  #         execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
-  #         rightscale(token, auth, msg, request, execute)
-  #       else if instance == "stag" or instance == "staging" or instance == "dev"
-  #         msg.reply "Ok, Rolling back staging array to previous release..."
-  #         request = "server_arrays/#{dev_array}/multi_run_executable"
-  #         execute = querystring.stringify({'recipe_name': 'expressionengine::rollback'})
-  #         rightscale(token, auth, msg, request, execute)
-  #       else
-  #         msg.reply "I'm not sure which environment I should rollback?"
-  #     else
-  #       msg.reply "Which environment should I rollback?"
-  #   else
-  #     msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
+  robot.respond /rs rollback ?(.*)/i, (msg) ->
+    room = msg.envelope.room
+    if robot.auth.isAdmin(msg.message.user) is true
+      instance = msg.match[1]
+      unless instance is ""
+        if instance == "prod" or instance == "production"
+          msg.reply "Ok, Rolling back production array to previous release..."
+          request = "server_arrays/#{prod_array}/multi_run_executable"
+          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
+          rightscale(token, auth, msg, request, execute)
+        else if instance == "stag" or instance == "staging" or instance == "dev" or instance == "beta"
+          msg.reply "Ok, Rolling back staging array to previous release..."
+          request = "server_arrays/#{beta_array}/multi_run_executable"
+          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
+          rightscale(token, auth, msg, request, execute)
+        else
+          msg.reply "I'm not sure which environment I should rollback?"
+      else
+        msg.reply "Which environment should I rollback?"
+    else
+      msg.reply "Sorry, You must have 'admin' access for me to rollback a release."
+
+  robot.respond /rs restart (apache|varnish)/i, (msg) ->
+    service = msg.match[1]
+    # make sure this responds back into the same room it was requested from
+    room = msg.envelope.room
+    if robot.auth.isAdmin(msg.message.user) is true
+      request = "server_arrays/#{prod_array}/multi_run_executable"
+      execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
+      rightscale(token, auth, msg, request, execute)
+    else
+      msg.reply "Sorry, You must have 'admin' access for me to restart the #{service} service."
 
 processResponse = (err, res, body, room, robot) ->
   switch res.statusCode
