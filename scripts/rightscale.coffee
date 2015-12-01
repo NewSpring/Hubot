@@ -187,12 +187,12 @@ module.exports = (robot) ->
           msg.reply "Ok, Rolling back production array to previous release..."
           request = "server_arrays/#{prod_array}/multi_run_executable"
           execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
-          rightscale(token, auth, msg, request, execute, room, robot)
+          rightscale(token, auth, request, execute, room, robot)
         else if instance == "stag" or instance == "staging" or instance == "dev" or instance == "beta"
           msg.reply "Ok, Rolling back staging array to previous release..."
           request = "server_arrays/#{beta_array}/multi_run_executable"
           execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
-          rightscale(token, auth, msg, request, execute, room, robot)
+          rightscale(token, auth, request, execute, room, robot)
         else
           msg.reply "I'm not sure which environment I should rollback?"
       else
@@ -207,44 +207,26 @@ module.exports = (robot) ->
     if robot.auth.isAdmin(msg.message.user) is true
       request = "server_arrays/#{prod_array}/multi_run_executable"
       execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
-      rightscale(token, auth, msg, request, execute, room, robot)
+      rightscale(token, auth, request, execute, room, robot)
     else
       msg.reply "Sorry, You must have 'admin' access for me to restart the #{service} service."
 
-processResponse = (err, res, body, room, robot) ->
-  switch res.statusCode
-    when 404
-      robot.messageRoom room, "There was an error! #{body}, #{err}"
-    when 401
-      robot.messageRoom room, "There was an authentication error!, #{err}"
-    when 500
-      robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
-
-rightscale = (token, auth, request, execute = null, room, robot, method = "post") ->
+rightscale = (token, auth, request, execute = null, room, robot) ->
   robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
-      unless res.statusCode is 200
-        msg.send "There is a problem with RightScale. #{data}"
-        return false
       response = JSON.parse(data)
       access = response.access_token
-
-      if method == "post"
-        robot.http("#{base}#{request}.json")
-          .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
-          .post(execute) (err, res, body) ->
-            processResponse(err, res, body, room, robot)
-      else
-        robot.http("#{base}#{request}.json")
-          .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
-          .get() (err, res, body) ->
-            unless res.statusCode is 200
-              processResponse(err, res, body, room, robot)
-            else
-              try
-                instances = JSON.parse(body)
-                parseInstances(instances, msg)
-              catch error
-                console.error error
+      robot.http("#{base}#{request}.json")
+        .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
+        .post(execute) (err, res, body) ->
+          switch res.statusCode
+            when 200
+              robot.messageRoom room, "Ok, I'm sending your request to Rightscale."
+            when 404
+              robot.messageRoom room, "There was an error! #{body}, #{err}"
+            when 401
+              robot.messageRoom room, "There was an authentication error!, #{err}"
+            when 500
+              robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
