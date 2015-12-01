@@ -205,7 +205,6 @@ module.exports = (robot) ->
     # make sure this responds back into the same room it was requested from
     room = msg.envelope.room
     if robot.auth.isAdmin(msg.envelope.user) is true
-      console.log "hello?"
       request = "server_arrays/#{prod_array}/multi_run_executable"
       execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
       rightscale(token, auth, request, execute, room, robot)
@@ -222,6 +221,8 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
       robot.http("#{base}#{request}.json")
         .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
         .post(execute) (err, res, body) ->
+          if err?
+            console.error err
           switch res.statusCode
             when 200
               robot.messageRoom room, "Ok, I'm sending your request to Rightscale."
