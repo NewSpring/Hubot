@@ -204,7 +204,8 @@ module.exports = (robot) ->
     service = msg.match[1]
     # make sure this responds back into the same room it was requested from
     room = msg.envelope.room
-    if robot.auth.isAdmin(msg.message.user) is true
+    if robot.auth.isAdmin(msg.envelope.user) is true
+      console.log "hello?"
       request = "server_arrays/#{prod_array}/multi_run_executable"
       execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
       rightscale(token, auth, request, execute, room, robot)
@@ -215,6 +216,7 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
   robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
+      console.log data
       response = JSON.parse(data)
       access = response.access_token
       robot.http("#{base}#{request}.json")
