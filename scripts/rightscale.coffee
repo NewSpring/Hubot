@@ -187,12 +187,12 @@ module.exports = (robot) ->
           msg.reply "Ok, Rolling back production array to previous release..."
           request = "server_arrays/#{prod_array}/multi_run_executable"
           execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
-          rightscale(token, auth, msg, request, execute)
+          rightscale(token, auth, msg, request, execute, room, robot)
         else if instance == "stag" or instance == "staging" or instance == "dev" or instance == "beta"
           msg.reply "Ok, Rolling back staging array to previous release..."
           request = "server_arrays/#{beta_array}/multi_run_executable"
           execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
-          rightscale(token, auth, msg, request, execute)
+          rightscale(token, auth, msg, request, execute, room, robot)
         else
           msg.reply "I'm not sure which environment I should rollback?"
       else
@@ -207,7 +207,7 @@ module.exports = (robot) ->
     if robot.auth.isAdmin(msg.message.user) is true
       request = "server_arrays/#{prod_array}/multi_run_executable"
       execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
-      rightscale(token, auth, msg, request, execute)
+      rightscale(token, auth, msg, request, execute, room, robot)
     else
       msg.reply "Sorry, You must have 'admin' access for me to restart the #{service} service."
 
