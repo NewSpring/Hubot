@@ -206,7 +206,7 @@ module.exports = (robot) ->
     room = msg.envelope.room
     if robot.auth.isAdmin(msg.envelope.user) is true
       request = "server_arrays/#{prod_array}/multi_run_executable"
-      execute = querystring.stringify({'recipe_name': "noah::do_restart_#{service}", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
+      execute = querystring.stringify({'recipe_name': "noah::do_#{service}_restart", "inputs[][name]":"noah/slack/channel", "inputs[][value]":"#{room}"})
       rightscale(token, auth, request, execute, room, robot)
     else
       msg.reply "Sorry, You must have 'admin' access for me to restart the #{service} service."
