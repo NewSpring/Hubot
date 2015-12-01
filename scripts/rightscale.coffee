@@ -230,6 +230,6 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
               robot.messageRoom room, "There was an error! #{body}, #{err}"
             when 401
               robot.messageRoom room, "There was an authentication error!, #{err}"
-            when 500
+            else
               robot.messageRoom room, "Status: #{res.statusCode}, I was unable to process your request, #{body}, #{err}"
 
