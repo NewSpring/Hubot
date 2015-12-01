@@ -186,12 +186,12 @@ module.exports = (robot) ->
         if instance == "prod" or instance == "production"
           msg.reply "Ok, Rolling back production array to previous release..."
           request = "server_arrays/#{prod_array}/multi_run_executable"
-          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
+          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "inputs[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
           rightscale(token, auth, request, execute, room, robot)
         else if instance == "stag" or instance == "staging" or instance == "dev" or instance == "beta"
           msg.reply "Ok, Rolling back staging array to previous release..."
           request = "server_arrays/#{beta_array}/multi_run_executable"
-          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "input[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
+          execute = querystring.stringify({'recipe_name': 'noah::do_rollback_newspring_cc', "inputs[][name]":"noah/slack/channel", "inputs[][value]": "#{room}"})
           rightscale(token, auth, request, execute, room, robot)
         else
           msg.reply "I'm not sure which environment I should rollback?"
@@ -217,7 +217,7 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
     .post() (err, res, data) ->
       response = JSON.parse(data)
       access = response.access_token
-      console.log access, base, request
+      console.log access, base, request, execute
       robot.http("#{base}#{request}.json")
         .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
         .post(execute) (err, res, body) ->
