@@ -215,9 +215,10 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
   robot.http("#{auth}?grant_type=refresh_token&refresh_token=#{token}")
     .headers("X-API-Version": "1.5", "Content-Length": '0')
     .post() (err, res, data) ->
-      console.log data
+      console.error err
       response = JSON.parse(data)
       access = response.access_token
+      console.log access
       robot.http("#{base}#{request}.json")
         .headers(Authorization: "Bearer #{access}", "X-API-Version": "1.5", "Content-Length": "0")
         .post(execute) (err, res, body) ->
