@@ -44,7 +44,7 @@ module.exports = (robot) ->
       }
     ]
 
-    if data.short == true
+    if data.short isnt true
       long = [
         {
           title: "Instance Type"
