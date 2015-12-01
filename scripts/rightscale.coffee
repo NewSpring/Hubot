@@ -224,7 +224,7 @@ rightscale = (token, auth, request, execute = null, room, robot) ->
           if err?
             console.error err
           switch res.statusCode
-            when 200
+            when 202
               robot.messageRoom room, "Ok, I'm sending your request to Rightscale."
             when 404
               robot.messageRoom room, "There was an error! #{body}, #{err}"
