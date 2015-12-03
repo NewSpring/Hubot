@@ -13,11 +13,11 @@ module.exports = (robot) ->
     table.push ( ["Primary","#6BAC43", "107,172,67"] )
     table.push ( ["Secondary","#1c683e","28/104/62"] )
     table.push ( [ "Tertiary","#2a4930","60,110,38"] )
-    msg.send "```" + table.toString() + "```"
+    msg.send "```\n" + table.toString() + "\n```"
 
     table = new Table({head: ['Black', 'Hex', 'RGB'], style: { head:[], border:[], 'padding-left':1, 'padding-right':1 }})
     table.push ( [ "Primary","#303030","48,48,48"] )
     table.push ( [ "Secondary","#858585","133,133,133"] )
     table.push ( [ "Tertiary","#dddddd","221,221,221"] )
-    msg.send "```" + table.toString() + "```"
+    msg.send "```\n" + table.toString() + "\n```"
 
