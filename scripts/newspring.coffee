@@ -19,5 +19,5 @@ module.exports = (robot) ->
     table.push ( [ "Primary","#303030","48,48,48"] )
     table.push ( [ "Secondary","#858585","133,133,133"] )
     table.push ( [ "Tertiary","#dddddd","221,221,221"] )
-    msg.send "/quote " + table.toString()
+    msg.send "```\n" + table.toString() + "\n```"
 
