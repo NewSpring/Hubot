@@ -28,7 +28,6 @@
     "hubot-redis-brain": "0.0.2",
     "hubot-scripts": "https://github.com/github/hubot-scripts/tarball/master",
     "hubot-slack": "^3.4.2",
-    "hubot-dumptruck": "http://ns.ops.s3.amazonaws.com/hubot/hubot-dumptruck.tgz",
     "hubot-twofactor": ">=0.3.6",
     "node-ooyala-api-client": "https://github.com/ndcollins/node-ooyala-api-client/tarball/master",
     "request": "2.14.0",
