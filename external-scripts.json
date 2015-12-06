@@ -5,6 +5,7 @@
   "hubot-plusplus",
   "hubot-aws",
   "hubot-twofactor",
+  "hubot-dumptruck",
   "hubot-auth",
   "hubot-github-webhook-listener",
   "hubot-jira-lookup"
