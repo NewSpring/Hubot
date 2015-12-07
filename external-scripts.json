@@ -6,7 +6,6 @@
   "hubot-aws",
   "hubot-twofactor",
   "hubot-auth",
-  "hubot-dumptruck",
   "hubot-github-webhook-listener",
   "hubot-jira-lookup"
 ]
