@@ -13,10 +13,9 @@
 # Author:
 #   jbaxleyiii
 
-brons = [
-  "https://s3.amazonaws.com/uploads.hipchat.com/21097/2655053/qnluc7wcHIRu4JL/bron.gif"
-]
-
 module.exports = (robot) ->
   robot.hear /morning \@bron/i, (msg) ->
-    msg.send msg.random brons
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/bron.gif"
+
+  robot.hear /morning \@erin/i, (msg) ->
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/erin.gif"
