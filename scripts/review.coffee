@@ -18,14 +18,14 @@ module.exports = (robot) ->
     '@drew'
     '@david'
     '@brian'
-    '@edolyne'
+    '@ed'
     '@sam'
-    '@johnthepink'
+    '@thoughtleader'
   ]
 
   directors = [
     '@james'
-    '@jon'
+    '@rich'
   ]
 
   shuffle = (array) ->
