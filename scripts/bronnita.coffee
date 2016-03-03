@@ -19,3 +19,6 @@ module.exports = (robot) ->
 
   robot.hear /goodbye \@erin/i, (msg) ->
     msg.send "http://ns.ops.s3.amazonaws.com/hubot/erin.gif"
+    
+  robot.hear /cmay/i, (msg) ->
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/cmay-forever.jpg"
