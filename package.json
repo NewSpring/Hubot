@@ -22,6 +22,7 @@
     "hubot-circleci": "0.8.1",
     "hubot-github-identity": "0.10.0",
     "hubot-github-webhook-listener": "0.9.1",
+    "hubot-heroku-keepalive": "1.0.1",
     "hubot-http-status": "0.2.1",
     "hubot-jira-lookup": "https://github.com/jivesoftware/hubot-jira-lookup/tarball/master",
     "hubot-plusplus": "^1.2.0",

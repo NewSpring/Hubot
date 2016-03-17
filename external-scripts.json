@@ -7,5 +7,6 @@
   "hubot-twofactor",
   "hubot-auth",
   "hubot-github-webhook-listener",
-  "hubot-jira-lookup"
+  "hubot-jira-lookup",
+  "hubot-heroku-keepalive"
 ]
