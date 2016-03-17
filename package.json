@@ -20,6 +20,7 @@
     "hubot-aws": ">=0.0.5",
     "hubot-chartbeat": "0.2.2",
     "hubot-circleci": "0.8.1",
+    "hubot-google-hangouts": "0.7.1",
     "hubot-github-identity": "0.10.0",
     "hubot-github-webhook-listener": "0.9.1",
     "hubot-heroku-keepalive": "1.0.1",
