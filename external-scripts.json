@@ -3,6 +3,7 @@
   "hubot-circleci",
   "hubot-redis-brain",
   "hubot-google-hangouts",
+  "hubot-google-images",
   "hubot-plusplus",
   "hubot-aws",
   "hubot-twofactor",
