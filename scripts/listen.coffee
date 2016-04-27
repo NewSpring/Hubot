@@ -14,11 +14,14 @@
 #   jbaxleyiii
 
 module.exports = (robot) ->
-  robot.hear /morning \@bron/i, (msg) ->
-    msg.send "http://ns.ops.s3.amazonaws.com/hubot/bron.gif"
+  robot.hear /donut/i, (msg) ->
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/donut.gif"
+
+  robot.hear /corndog/i, (msg) ->
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/corndog.gif"
 
   robot.hear /goodbye \@erin/i, (msg) ->
     msg.send "http://ns.ops.s3.amazonaws.com/hubot/erin.gif"
-    
+
   robot.hear /cmay/i, (msg) ->
-    msg.send "http://ns.ops.s3.amazonaws.com/hubot/cmay-forever.jpg"
+    msg.send "http://ns.ops.s3.amazonaws.com/hubot/cmay.jpg"
